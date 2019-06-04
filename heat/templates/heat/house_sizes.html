@@ -1,0 +1,19 @@
+<head>
+{% extends "home/base_generic.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="/transport/static/css/transport.css">
+</head>
+
+
+{% block content %}
+<body>
+<div class="container">
+	<div class="mainCentreLower">
+		<h1 class="heading1" style="text-align: center;">Floor Areas according to house type</h1>
+		{% load static %}
+		<img class="Centre" src="{% static "/houseSizes.png" %}" alt="My image">
+	</div>
+</div>
+
+</body>
+{% endblock %}

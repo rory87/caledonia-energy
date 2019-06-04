@@ -1,0 +1,183 @@
+<html>
+<head>
+{% extends "home/base_generic.html" %}
+</head>
+
+{% block content %}
+
+<body>
+<div class="container">
+	<div class="mainCentreLower">
+		<h1 class="heading1">GSP Electrical Demand</h1>
+
+		<p class="left">In this section you can access electrical Grid Supply Point (GSP) data for each GSP throughout Scotland. This data can either be download to a csv file or plotted to view in your browser.
+				Data at each GSP can be downloaded for a particular month and number of days throughout the month.
+				Alternatively, data throughout an entire calendar year (from April 1st to March 31st) can de accessed.  </p>
+
+		<p class="left">Fill in these fields below and click either download or plot to access the data.</p> 
+		<p class="left">To compare demand from two different GSPs, click on the Link at the bottom.</p>
+				<br/>
+		<form name="frm" action={% url 'electricalData' %} method="get" onsubmit="return checkform()">
+		<p class="left"><strong>Select the electrical GSP:</strong></p>
+			<select name="supplyPoint">
+			<option value=1>Ayr (SPEN)</option>
+			<option value=2>Bainsford (SPEN)</option>
+			<option value=3>Bathgate (SPEN)</option>
+			<option value=4>Berwick (SPEN)</option>
+			<option value=5>Bonnybridge (SPEN)</option>
+			<option value=6>Braehead Park (SPEN)</option>
+			<option value=7>Broxburn (SPEN)</option>
+			<option value=8>Carntyne (SPEN)</option>
+			<option value=9>Chapelcross (SPEN)</option>
+			<option value=10>Charlotte Street (SPEN)</option>
+			<option value=11>Coatbridge (SPEN)</option>
+			<option value=12>Cockenzie (SPEN)</option>
+			<option value=13>Coylton (SPEN)</option>
+			<option value=14>Crookston (SPEN)</option>
+			<option value=15>Cumbernauld (SPEN)</option>
+			<option value=16>Cupar (SPEN)</option>
+			<option value=17>Currie (SPEN)</option>
+			<option value=18>Dalmarnock (SPEN)</option>
+			<option value=19>Devol Moor (SPEN)</option>
+			<option value=20>Devonside (SPEN)</option>
+			<option value=21>Dewar Place (SPEN)</option>
+			<option value=22>Drumchapel (SPEN)</option>
+			<option value=23>Dumfries (SPEN)</option>
+			<option value=24>Dunbar (SPEN)</option>
+			<option value=25>Dunfermline (SPEN)</option>
+			<option value=26>Easterhouse (SPEN)</option>
+			<option value=27>East Kilbride (SPEN)</option>
+			<option value=28>East Kilbride South (SPEN)</option>
+			<option value=29>Eccles (SPEN)</option>
+			<option value=30>Elderslie (SPEN)</option>
+			<option value=31>Erskine (SPEN)</option>
+			<option value=32>Finnieston (SPEN)</option>
+			<option value=33>Galashields (SPEN)</option>
+			<option value=34>Giffnock (SPEN)</option>
+			<option value=35>Glenlee (SPEN)</option>
+			<option value=36>Glenluce (SPEN)</option>
+			<option value=37>Glenniston (SPEN)</option>
+			<option value=38>Glenrothes (SPEN)</option>
+			<option value=39>Gorgie (SPEN)</option>
+			<option value=40>Govan (SPEN)</option>
+			<option value=41>Grangemouth (SPEN)</option>
+			<option value=42>Haggs Road (SPEN)</option>
+			<option value=43>Hawick (SPEN)</option>
+			<option value=44>Helensburgh (SPEN)</option>
+			<option value=45>Inverkeithing (SPEN)</option>
+			<option value=46>Johnstone (SPEN)</option>
+			<option value=47>Kaimes (SPEN)</option>
+			<option value=48>Killermont (SPEN)</option>
+			<option value=49>Kilmarnock South (SPEN)</option>
+			<option value=50>Kilmarnock Town (SPEN)</option>
+			<option value=51>Kilwinning (SPEN)</option>
+			<option value=52>Leven (SPEN)</option>
+			<option value=53>Linmill (SPEN)</option>
+			<option value=54>Livingston (SPEN)</option>
+			<option value=55>Maybole (SPEN)</option>
+			<option value=56>Newarthill (SPEN)</option>
+			<option value=57>Newton Stewart (SPEN)</option>
+			<option value=58>Paisley (SPEN)</option>
+			<option value=59>Partick (SPEN)</option>
+			<option value=60>Port Dundas (SPEN)</option>
+			<option value=61>Portobello (SPEN)</option>
+			<option value=62>Redhouse (SPEN)</option>
+			<option value=63>Saltcoats (SPEN)</option>
+			<option value=64>Shrubhill (SPEN)</option>
+			<option value=65>Sighthill (SPEN)</option>
+			<option value=66>Spango Valley (SPEN)</option>
+			<option value=67>St Andrews Cross (SPEN)</option>
+			<option value=68>Stirling (SPEN)</option>
+			<option value=69>Strathaven( SPEN)</option>
+			<option value=70>Strathleven (SPEN)</option>
+			<option value=71>Telford Road (SPEN)</option>
+			<option value=72>Tongland (SPEN)</option>
+			<option value=73>West George Street (SPEN)</option>
+			<option value=74>Westfield (SPEN)</option>
+			<option value=75>Whitehouse (SPEN)</option>
+			<option value=76>Wishaw (SPEN)</option>
+			<option value=77>Abernethy (SSE)</option>
+			<option value=78>Alness (SSE)</option>
+			<option value=79>Arbroath (SSE)</option>
+			<option value=80>Ardmore (SSE)</option>
+			<option value=81>Beauly (SSE)</option>
+			<option value=82>Boat of Garten (SSE)</option>
+			<option value=83>Braco (SSE)</option>
+			<option value=84>Bridge of Dun (SSE)</option>
+			<option value=85>Broadford (SSE)</option>
+			<option value=86>Brora (SSE)</option>
+			<option value=87>Burghmuir (SSE)</option>
+			<option value=88>Carradale (SSE)</option>
+			<option value=89>Charleston (SSE)</option>
+			<option value=90>Clachan (SSE)</option>
+			<option value=91>Clayhills (SSE)</option>
+			<option value=92>Coupar Angus (SSE)</option>
+			<option value=93>Craigiebuckler (SSE)</option>
+			<option value=94>Dudhope (SSE)</option>
+			<option value=95>Dunoon (SSE)</option>
+			<option value=96>Dunvegan (SSE)</option>
+			<option value=97>Dyce (SSE)</option>
+			<option value=98>Elgin (SSE)</option>
+			<option value=99>Fiddes (SSE)</option>
+			<option value=100>Fort Augustus (SSE)</option>
+			<option value=101>Fort William (SSE)</option>
+			<option value=102>Fraserburgh (SSE)</option>
+			<option value=103>Grudie Bridge (SSE)</option>
+			<option value=104>Inverness (SSE)</option>
+			<option value=105>Keith (SSE)</option>
+			<option value=106>Killin (SSE)</option>
+			<option value=107>Kintore (SSE)</option>
+			<option value=108>Lairg (SSE)</option>
+			<option value=109>Lunanhead (SSE)</option>
+			<option value=110>Lyndhurst (SSE)</option>
+			<option value=111>MacDuff (SSE)</option>
+			<option value=112>Milton of Craigie (SSE)</option>
+			<option value=113>Mybster (SSE)</option>
+			<option value=114>Nairn (SSE)</option>
+			<option value=115>Persley (SSE)</option>
+			<option value=116>Peterhead Grange (SSE)</option>
+			<option value=117>Port Ann (SSE)</option>
+			<option value=118>Quoich (SSE)</option>
+			<option value=119>Redmoss (SSE)</option>
+			<option value=120>Shin (SSE)</option>
+			<option value=121>Sloy (SSE)</option>
+			<option value=122>Strichen (SSE)</option>
+			<option value=123>Tarland (SSE)</option>
+			<option value=124>Taynuilt (SSE)</option>
+			<option value=125>Thurso (SSE)</option>
+			<option value=126>Tummel Bridge (SSE)</option>
+			<option value=127>Willowdale (SSE)</option>
+			<option value=128>Woodhill (SSE)</option>
+		</select><br/>
+		<p class="left"><strong>Select the time period (a particular month of the year or complete year):</strong></p>
+
+
+				<p class ="left">Month</p>
+				
+
+			<select name="month" id="month">
+			<option value=1>January</option>
+			<option value=2>February</option>
+			<option value=3>March</option>
+			<option value=4>April</option>
+			<option value=5>May</option>
+			<option value=6>June</option>
+			<option value=7>July</option>
+			<option value=8>August</option>
+			<option value=9>September</option>
+			<option value=10>October</option>
+			<option value=11>November</option>
+			<option value=12>December</option>
+			<option value=13>Full Year</option>
+				</select>
+			<p class ="left">No. of Days</p>
+			<input type="number" name="days" id="days">
+			
+
+
+		</form>
+	</div>
+</div>
+</body>
+{% endblock %}
+</html>

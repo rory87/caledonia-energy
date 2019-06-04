@@ -1,0 +1,58 @@
+<html>
+<head>
+{% extends "home/base_generic.html" %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+function getVars(){
+	var supplyPoint = getUrlVars()["supplyPoint"];
+	var month = getUrlVars()["month"]
+	var days = getUrlVars()["days"]
+	
+	postData(supplyPoint, month, days)
+	}
+
+function postData(supplyPoint, month, days){
+	$.post("testElectrical",
+    {
+      supplyPoint: supplyPoint,
+      month: month,
+	  days: days
+    },
+}
+
+$(document).ready(function(){
+  $("button").click(function(){
+    $.post("testElectrical",
+    {
+      supplyPoint: supplyPoint,
+      month: month,
+	  days: days
+    },
+})));
+
+</script>
+</head>
+
+{% block content %}
+<body>
+<div class="container">
+	<div class="mainCentreLowerImage">
+		<img class="Centre" src="data:image/png;base64,{{graphic|safe}}">
+		<h1 class="imageDetail">GSP Demand Statistics</h1>
+		<p class ="Centre"><strong>Peak Demand at {{ GSP1 }} GSP: </strong><font color=#4CAF50><strong>{{ maxGSP1 }}kW</strong></font></p>
+		<p class="Centre"><strong>Peak Demand at {{ GSP2 }} GSP: </strong><font color=#4CAF50><strong>{{ maxGSP2 }}kW</strong></font></p>
+	</div>
+</div>
+</body>
+{% endblock %}
+</html>

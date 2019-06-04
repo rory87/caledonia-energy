@@ -1,0 +1,757 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Local Energy - Home</title>
+<style>
+html{
+	position: relative;
+	min-height: 100%;
+	bottom: 0;
+	overflow-y:auto;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+
+}
+
+div.container {
+	width: 100%;
+	margin-bottom: 3em;
+
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	width: 100%;
+}
+
+.navbar a {
+    float: left;
+    font-size: 1em;
+    color: white;
+    text-align: center;
+    padding: 0.875em 1em;
+    text-decoration: none;
+	font-size: 1em;
+}
+
+.navbar a.log {
+	color: #4CAF50;
+	float: right;
+}
+
+.navbar a.logNa {
+	color: #4CAF50;
+	float: right;
+}
+
+.navbar a.log:hover {
+	background-color: #FFFFFF;
+}
+
+.navbar a.logNa:hover {
+	background-color: #FFFFFF;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    font-size: 1em;    
+    border: none;
+    outline: none;
+    color: white;
+    padding: 0.875em 1em;
+    background-color: inherit;
+	font-size: 1em;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: green;
+	font-size: 1em;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 10em;
+    box-shadow: 0em 0.5em 1em 0em rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 0.75em 1em;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown.loggedIn {
+	position: absolute;
+	right: 2em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+.dropdown.account {
+  color: #4CAF50;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+  font-size: 1em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.navbar .account a:hover {
+    background-color: red;
+}
+
+
+
+div.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 3em;
+  background-color: #bdc3c7;
+  color: #4CAF50;
+  text-align: right;
+  font-family: "Roboto", sans-serif;
+  font-size: 1em;
+  line-height: 1.5em;
+
+}
+
+
+@media only screen and (max-width: 2500px) {
+div.mainCentre {
+	position:relative;
+	left: 25%;
+	width: 50%;
+	margin-bottom: 4em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLower {
+	position:relative;
+	left: 25%;
+	width: 50%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLowerHeat {
+	position:relative;
+	left: 10%;
+	width: 80%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLowerImage {
+	position:relative;
+	left: 30%;
+	width: 40%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLargeContent {
+	position:relative;
+	left: 35%;
+	width: 30%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+img.Centre {
+	width: 100%;
+	height: auto;
+}
+
+p.Centre {
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+	text-align: center;	
+}
+
+p.left{
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+
+}
+
+p.tab{
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+	display: inline;
+	padding: 5%;
+
+}
+
+h1.heading1 {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 2em;
+}
+
+h1.imageDetail {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 1em;
+	text-align:center;	
+}
+
+ul.list {
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+}
+
+}
+
+@media only screen and (max-width: 1500px) {
+div.mainCentre {
+	position:relative;
+	left: 15%;
+	width: 70%;
+	margin-bottom: 4em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLower {
+	position:relative;
+	left: 15%;
+	width: 70%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLowerHeat {
+	position:relative;
+	left: 10%;
+	width: 80%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLowerImage {
+	position:relative;
+	left: 30%;
+	width: 40%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+div.mainCentreLargeContent {
+	position:relative;
+	left: 35%;
+	width: 30%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+img.Centre {
+	width: 100%;
+	height: auto;
+}
+
+p.Centre {
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+	text-align: center;	
+}
+
+p.left{
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+
+}
+
+p.tab{
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+	display: inline;
+	padding: 5%;
+
+}
+
+h1.heading1 {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 2em;
+}
+
+h1.imageDetail {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 1em;
+	text-align:center;	
+}
+
+ul.list {
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+}
+
+}	
+
+@media only screen and (max-width: 1400px) {
+div.mainCentre {
+	position:relative;
+	left: 10%;
+	width: 80%;
+	padding-bottom: 4em;
+}
+
+div.mainCentreLower {
+	position:relative;
+	left: 10%;
+	width: 80%;
+	top: 2em;
+	padding-bottom: 4em;
+}
+
+div.mainCentreLowerHeat {
+	position:relative;
+	left: 10%;
+	width: 80%;
+	top: 4em;
+	padding-bottom: 3em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+
+div.mainCentreLowerImage {
+	position:relative;
+	left: 15%;
+	width: 70%;
+	top: 2em;
+	padding-bottom: 4em;
+}
+
+div.mainCentreLargeContent {
+	position:relative;
+	left: 15%;
+	width: 70%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+img.Centre {
+	width: 100%;
+	height: auto;
+}
+
+p.Centre {
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+	text-align: center;
+	
+}
+
+p.left{
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+
+}
+
+h1.heading1 {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 2em;
+	text-align: center;
+}
+
+h1.imageDetail {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 1em;
+	text-align:center;	
+}
+
+ul.list {
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+}
+
+}
+
+@media only screen and (max-width: 500px) {
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: "Roboto", sans-serif;
+	font-size: 0.8em;
+	width: 100%;
+}
+
+.navbar a {
+    float: left;
+    font-size: 1em;
+    color: white;
+    text-align: center;
+    padding: 0.875em 1em;
+    text-decoration: none;
+	font-size: 0.8em;
+}
+
+.navbar a.log {
+	color: #4CAF50;
+	float: right;
+}
+
+.navbar a.logNa {
+	color: #4CAF50;
+	float: right;
+}
+
+.navbar a.log:hover {
+	background-color: #FFFFFF;
+}
+
+.navbar a.logNa:hover {
+	background-color: #FFFFFF;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    font-size: 1em;    
+    border: none;
+    outline: none;
+    color: white;
+    padding: 0.875em 1em;
+    background-color: inherit;
+	font-size: 0.8em;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: green;
+	font-size: 0.8em;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 10em;
+    box-shadow: 0em 0.5em 1em 0em rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 0.75em 1em;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown.loggedIn {
+	position: absolute;
+	right: 2em;
+	font-family: "Roboto", sans-serif;
+	font-size: 0.8em;
+}
+
+.dropdown.account {
+  color: #4CAF50;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+  font-size: 1em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.navbar .account a:hover {
+    background-color: red;
+}
+
+
+div.mainCentre {
+	position:relative;
+	left: 5%;
+	width: 90%;
+	padding-bottom: 4em;
+}
+
+div.mainCentreLower {
+	position:relative;
+	left: 5%;
+	width: 90%;
+	top: 1em;
+	padding-bottom: 4em;
+}
+
+div.mainCentreLowerHeat {
+	position:relative;
+	left: 10%;
+	width: 80%;
+	top: 4em;
+	padding-bottom: 3em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+
+div.mainCentreLowerImage {
+	position:relative;
+	left: 15%;
+	width: 70%;
+	top: 1em;
+	padding-bottom: 4em;
+}
+div.mainCentreLargeContent {
+	position:relative;
+	left: 15%;
+	width: 70%;
+	top: 4em;
+	padding-bottom: 6em;
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+}
+
+img.Centre {
+	width: 100%;
+	height: auto;
+}
+
+p.Centre {
+	font-family: "Roboto", sans-serif;
+	font-size: 0.8em;
+	line-height: 1.4em;
+	text-align: center;	
+}
+
+p.left{
+	font-family: "Roboto", sans-serif;
+	font-size: 0.8em;
+	line-height: 1.4em;
+
+}
+
+h1.heading1 {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 1.6em;
+	text-align: center;
+}
+
+h1.imageDetail {
+	font-family: "Roboto", sans-serif;
+	color: #4CAF50;
+	font-weight: bold;
+	font-size: 1em;
+	text-align:center;	
+}
+
+ul.list {
+	font-family: "Roboto", sans-serif;
+	font-size: 0.8em;
+	line-height: 1.4em;
+}
+
+}
+	
+.collapsible {
+  font-family: "Roboto", sans-serif;
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  font-family: "Roboto", sans-serif;
+  background-color: green;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  font-family: "Roboto", sans-serif;
+}
+
+</style>
+
+
+</head>
+
+<body>
+	<div class="navbar">
+		<a class="active" href="{% url 'home' %}">Home</a>
+		
+		<div class="dropdown">
+			<button class="dropbtn">Electrical Systems
+			<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="{% url 'electricalInput'%}">Grid Supply Point Electrical Demand</a>
+			</div>
+		</div>
+		
+		
+		<div class="dropdown">
+			<button class="dropbtn">Heat Electrification
+			<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="{% url 'storageHeaterInputForm' %}">Heat Pumps & Electrical Storage Heaters</a>
+				<a href="{% url 'industrialHeaterInputForm' %}">Industrial Heat Pumps</a>
+			</div>
+		</div>
+		
+		<div class="dropdown">
+			<button class="dropbtn">Transport Electrification
+			<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="{% url 'transportInputEV' %}">Electric Vehicle Analysis</a>
+				<a href="{% url 'transportInput' %}">Impact on GSP Flows</a>
+			</div>
+		</div>
+		
+		<div class="dropdown">
+			<button class="dropbtn">Renewable Generation
+			<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="{% url 'pvInput' %}">PV Generation</a>
+				<a href="{% url 'windInput' %}">Wind Generation</a>
+			</div>
+		</div>
+
+		
+		<div class="dropdown">
+			<button class="dropbtn">Energy Storage
+			<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="{% url 'storageInputPlot' %}">Impact on GSP Flows</a>
+				<a href="{% url 'storageInputSizing'%}">Battery Sizing</a>
+			</div>
+		</div>
+ 
+ 		<div class="dropdown">
+			<button class="dropbtn">Local Heat Analysis
+			<i class="fa fa-caret-down"></i>
+			</button> 
+			<div class="dropdown-content">
+				<a href="{% url 'heatInput' %}">Residential Heat Demand</a>
+				<a href="{% url 'heatInputIndustrial'%}">Industrial Heat Demand</a>
+			</div>
+		</div>
+		
+  <a href="{% url 'wholeInput' %}">Whole System Analysis</a>
+  
+  <a href="">GSP Map</a>
+  
+  <a href="{% url 'about'%}">About</a>
+  
+  
+  {% if user.is_authenticated %}
+
+    <a class="log" href="{% url 'logout' %}">Log out</a>
+  {% else %}
+    <a class="logNa" href="{% url 'login' %}">Log in</a>
+    <a class="log" href="{% url 'signup' %}">Register</a>
+  {% endif %}		
+   </div>
+
+	
+  {% block content %}{% endblock content %}
+	
+
+  {% block js %}{% endblock js %}
+<div class="footer">
+<p style="margin-right: 2em;">2019 caledonia-energy.uk </p>
+</div>
+	
+</body>
+</html>

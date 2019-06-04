@@ -1,0 +1,21 @@
+<html>
+<head>
+{% extends "home/base_generic.html" %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+{% block content %}
+<body>
+<div class="container">
+	<div class="mainCentreLowerImage">
+		<img class="Centre" src="data:image/png;base64,{{graphic|safe}}">
+		<img class="Centre" src="data:image/png;base64,{{graphic2|safe}}">
+		<h1 class="imageDetail">Demand Statistics</h1>
+		<p class ="Centre"><strong>GSP Rating: </strong><font color=#4CAF50><strong>{{ firm }}MW</strong></font></p>
+		<p class="Centre"><strong>Peak Electrified Heat Demand : </strong><font color=#4CAF50><strong>{{ peakCharge }}kWh</strong></font></p>	
+		<p class="Centre"><strong> Base Peak GSP : </strong><font color=#4CAF50><strong>{{ maxGSP }}MW</strong></font></p>	
+		<p class="Centre"><strong> Peak GSP with additional load : </strong><font color=#4CAF50><strong>{{ maxGSPNew }}MW</strong></font></p>
+	</div>
+</div>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,26 @@
+﻿<html>
+<head>
+{% extends "home/base_generic.html" %}
+{% load staticfiles %}
+</head>
+
+{% block content %}
+<body>
+
+<div class="container">
+	<div class="mainCentre">
+		{% load staticfiles %}
+		<img class="Centre" src="{% static "main2.png" %}" alt="My image">
+
+
+		<p class="Centre">Welcome to caledonia-energy.uk, a website dedicated to understanding local energy needs throughout Scotland.</p>
+		<p class="Centre">The tools availabale within this website allow users to define specific parameters of energy systems. These inputs are combined with transport and heat models to quantify temporal energy flows. These are output to the user.</p>
+		<p class="Centre">To get started, please Register using the link on the left. If you do not register you will not have access to the tools.</p>
+		<p class="Centre"><strong>If you have already registered, login using your username and password.</strong></p>
+	</div>
+</div>
+
+
+</body>
+{% endblock %}
+</html>

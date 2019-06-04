@@ -1,0 +1,21 @@
+<html>
+<head>
+{% extends "home/base_generic.html" %}
+</head>
+
+{% block content %}
+<body>
+<div class="container">
+	<div class="mainCentreLower">
+		<h1 class="heading1">Login</h1>
+		<form method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Login</button>
+		</form>
+	</div>
+<div>
+
+</body>
+{% endblock %}
+</html>

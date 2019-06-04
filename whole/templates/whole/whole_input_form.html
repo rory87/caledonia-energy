@@ -1,0 +1,350 @@
+<html>
+<head>
+{% extends "home/base_generic.html" %}
+</head>
+
+	
+{% block content %}
+<body>
+  
+<div class="container">
+	<div class="mainCentreLower">
+		<h1 class="heading1">Whole Energy System Analysis - GSP Level</h1>
+		<p class="left">Fill in the fields below and click Enter to define the Parameters</p>
+		<p class="left">Inputs in this page are defined as percentages of existing numbers.
+		Alternatively, define raw numbers <a href="{% url 'wholeInputNum' %}">here</a> 
+		<br/>		
+		<form  name="frm" action={% url 'wholePlot' %}  method="get" onsubmit="return checkform()">
+		<button class="collapsible" type="button"><strong>Electric Vehicle Scenarios</strong></button>
+			<div class="content">
+				<p class="left">New EVs in Urban Areas as a % of Existing Vehicle Numbers:</p>
+				<input type="number" name="urbanEV" id="urbanEV"></br>				
+				<p class="left">New EVs in Rural Areas as a % of Existing Vehicle Numbers:</p>
+				<input type="number" name="ruralEV" id="ruralEV"></br>
+				<p></p>				
+			</div>
+		<p style="color:red;" id="evWarning" class ="left"></p>
+		<p style="margin-bottom:1.2em"></p>		
+		<button class="collapsible" type="button"><strong>Residential Heat Scenarios - Heat Pumps</strong></button>
+			<div class="content">
+				<p class="left">% of Small Sized Homes with Heat Pumps:</p>
+				<input type="number" name="smallHP" id="smallHP"></br>
+				<p class="left">% of Medium Sized Homes with Heat Pumps:</p>
+				<input type="number" name="mediumHP" id="mediumHP"></br>
+				<p class="left">% of Large Sized Homes with Heat Pumps:</p>
+				<input type="number" name="largeHP" id="largeHP"></br>
+				<p></p>				
+			</div>
+		<p style="color:red;" id="hpWarning" class ="left"></p>
+		<p style="margin-bottom:1.2em"></p>	
+		<button class="collapsible" type="button"><strong>Residential Heat Scenarios - Storage Heaters</strong></button>
+			<div class="content">
+				<p class="left">% of Small Sized Homes with Storage Heaters:</p>
+				<input type="number" name="smallSH" id="smallSH"></br>
+				<p class="left">% of Medium Sized Homes with Storage Heaters:</p>
+				<input type="number" name="mediumSH" id="mediumSH"></br>
+				<p class="left">% of Large Sized Homes with Storage Heaters:</p>
+				<input type="number" name="largeSH" id="largeSH"></br>
+				<p></p>				
+			</div>
+		<p style="color:red;" id="shWarning" class ="left"></p>
+		<p style="margin-bottom:1.2em"></p>	
+		<button class="collapsible" type="button"><strong>Industrial Heat Scenarios</strong></button>
+			<div class="content">
+				<p class="left">% of Manufacturing Industries with Heat Pumps:</p>
+				<input type="number" name="manufacturingHP" id="manufacturingHP"></br>
+				<p class="left">% of Commercial Properties with Heat Pumps:</p>
+				<input type="number" name="commercialHP" id="commercialHP"></br>
+				<p class="left">% of Entertainment Based Industries with Heat Pumps:</p>
+				<input type="number" name="entertainmentHP" id="entertainmentHP"></br>
+				<p class="left">% of Educational Buildings with Heat Pumps:</p>
+				<input type="number" name="educationHP" id="educationHP"></b>
+				<p></p>			
+			</div>
+		<p style="color:red;" id="ihWarning" class ="left"></p>
+		<p style="margin-bottom:1.2em"></p>	
+		<button class="collapsible" type="button"><strong>Renewable Generation Scenarios</strong></button>
+			<div class="content">
+				<p class="left">Total Installed Capacity of New Wind Farms at Distribution Level (MW):</p>
+				<input type="number" name="windCapacity" id="windCapacity"></br>
+				<p class="left">Total Number of New Wind Turbines at Distribution Level:</p>
+				<input type="number" name="windNumber" id="windNumber"></br>
+				<p class="left">Total Installed PV Capacity at Distribution Level (MW):</p>
+				<input type="number" name="pvCapacity" id="pvCapacity"></br>
+				<p class="left">Total Number of New PV installations at Distribution Level:</p>
+				<input type="number" name="pvNumber" id="pvNumber"></br>
+				<p></p>		
+			</div>
+		<p style="color:red;" id="genWarning" class ="left"></p>
+		<p style="margin-bottom:1.2em"></p>
+		<button class="collapsible" type="button"><strong>Battery Energy Storage Scenarios</strong></button>
+			<div class="content">
+				<p class="left">Total Installed Battery Capacity at GSP Level (MW):</p>
+				<input type="number" name="esCapacity" id="esCapacity"></br>
+				<p></p>
+			</div>
+		<p style="color:red;" id="storageWarning" class ="left"></p>
+		<p style="margin-bottom:1.2em"></p>		
+		<p class="left"><strong>Select the electrical GSP:</strong></p>
+			<select name="supplyPoint">
+				<option value=1>Ayr (SPEN)</option>
+				<option value=2>Bainsford (SPEN)</option>
+				<option value=3>Bathgate (SPEN)</option>
+				<option value=4>Berwick (SPEN)</option>
+				<option value=5>Bonnybridge (SPEN)</option>
+				<option value=6>Braehead Park (SPEN)</option>
+				<option value=7>Broxburn (SPEN)</option>
+				<option value=8>Carntyne (SPEN)</option>
+				<option value=9>Chapelcross (SPEN)</option>
+				<option value=10>Charlotte Street (SPEN)</option>
+				<option value=11>Coatbridge (SPEN)</option>
+				<option value=12>Cockenzie (SPEN)</option>
+				<option value=13>Coylton (SPEN)</option>
+				<option value=14>Crookston (SPEN)</option>
+				<option value=15>Cumbernauld (SPEN)</option>
+				<option value=16>Cupar (SPEN)</option>
+				<option value=17>Currie (SPEN)</option>
+				<option value=18>Dalmarnock (SPEN)</option>
+				<option value=19>Devol Moor (SPEN)</option>
+				<option value=20>Devonside (SPEN)</option>
+				<option value=21>Dewar Place (SPEN)</option>
+				<option value=22>Drumchapel (SPEN)</option>
+				<option value=23>Dumfries (SPEN)</option>
+				<option value=24>Dunbar (SPEN)</option>
+				<option value=25>Dunfermline (SPEN)</option>
+				<option value=26>Easterhouse (SPEN)</option>
+				<option value=27>East Kilbride (SPEN)</option>
+				<option value=28>East Kilbride South (SPEN)</option>
+				<option value=29>Eccles (SPEN)</option>
+				<option value=30>Elderslie (SPEN)</option>
+				<option value=31>Erskine (SPEN)</option>
+				<option value=32>Finnieston (SPEN)</option>
+				<option value=33>Galashields (SPEN)</option>
+				<option value=34>Giffnock (SPEN)</option>
+				<option value=35>Glenlee (SPEN)</option>
+				<option value=36>Glenluce (SPEN)</option>
+				<option value=37>Glenniston (SPEN)</option>
+				<option value=38>Glenrothes (SPEN)</option>
+				<option value=39>Gorgie (SPEN)</option>
+				<option value=40>Govan (SPEN)</option>
+				<option value=41>Grangemouth (SPEN)</option>
+				<option value=42>Haggs Road (SPEN)</option>
+				<option value=43>Hawick (SPEN)</option>
+				<option value=44>Helensburgh (SPEN)</option>
+				<option value=45>Inverkeithing (SPEN)</option>
+				<option value=46>Johnstone (SPEN)</option>
+				<option value=47>Kaimes (SPEN)</option>
+				<option value=48>Killermont (SPEN)</option>
+				<option value=49>Kilmarnock South (SPEN)</option>
+				<option value=50>Kilmarnock Town (SPEN)</option>
+				<option value=51>Kilwinning (SPEN)</option>
+				<option value=52>Leven (SPEN)</option>
+				<option value=53>Linmill (SPEN)</option>
+				<option value=54>Livingston (SPEN)</option>
+				<option value=55>Maybole (SPEN)</option>
+				<option value=56>Newarthill (SPEN)</option>
+				<option value=57>Newton Stewart (SPEN)</option>
+				<option value=58>Paisley (SPEN)</option>
+				<option value=59>Partick (SPEN)</option>
+				<option value=60>Port Dundas (SPEN)</option>
+				<option value=61>Portobello (SPEN)</option>
+				<option value=62>Redhouse (SPEN)</option>
+				<option value=63>Saltcoats (SPEN)</option>
+				<option value=64>Shrubhill (SPEN)</option>
+				<option value=65>Sighthill (SPEN)</option>
+				<option value=66>Spango Valley (SPEN)</option>
+				<option value=67>St Andrews Cross (SPEN)</option>
+				<option value=68>Stirling (SPEN)</option>
+				<option value=69>Strathaven( SPEN)</option>
+				<option value=70>Strathleven (SPEN)</option>
+				<option value=71>Telford Road (SPEN)</option>
+				<option value=72>Tongland (SPEN)</option>
+				<option value=73>West George Street (SPEN)</option>
+				<option value=74>Westfield (SPEN)</option>
+				<option value=75>Whitehouse (SPEN)</option>
+				<option value=76>Wishaw (SPEN)</option>
+				<option value=77>Abernethy (SSE)</option>
+				<option value=78>Alness (SSE)</option>
+				<option value=79>Arbroath (SSE)</option>
+				<option value=80>Ardmore (SSE)</option>
+				<option value=81>Beauly (SSE)</option>
+				<option value=82>Boat of Garten (SSE)</option>
+				<option value=83>Braco (SSE)</option>
+				<option value=84>Bridge of Dun (SSE)</option>
+				<option value=85>Broadford (SSE)</option>
+				<option value=86>Brora (SSE)</option>
+				<option value=87>Burghmuir (SSE)</option>
+				<option value=88>Carradale (SSE)</option>
+				<option value=89>Charleston (SSE)</option>
+				<option value=90>Clachan (SSE)</option>
+				<option value=91>Clayhills (SSE)</option>
+				<option value=92>Coupar Angus (SSE)</option>
+				<option value=93>Craigiebuckler (SSE)</option>
+				<option value=94>Dudhope (SSE)</option>
+				<option value=95>Dunoon (SSE)</option>
+				<option value=96>Dunvegan (SSE)</option>
+				<option value=97>Dyce (SSE)</option>
+				<option value=98>Elgin (SSE)</option>
+				<option value=99>Fiddes (SSE)</option>
+				<option value=100>Fort Augustus (SSE)</option>
+				<option value=101>Fort William (SSE)</option>
+				<option value=102>Fraserburgh (SSE)</option>
+				<option value=103>Grudie Bridge (SSE)</option>
+				<option value=104>Inverness (SSE)</option>
+				<option value=105>Keith (SSE)</option>
+				<option value=106>Killin (SSE)</option>
+				<option value=107>Kintore (SSE)</option>
+				<option value=108>Lairg (SSE)</option>
+				<option value=109>Lunanhead (SSE)</option>
+				<option value=110>Lyndhurst (SSE)</option>
+				<option value=111>MacDuff (SSE)</option>
+				<option value=112>Milton of Craigie (SSE)</option>
+				<option value=113>Mybster (SSE)</option>
+				<option value=114>Nairn (SSE)</option>
+				<option value=115>Persley (SSE)</option>
+				<option value=116>Peterhead Grange (SSE)</option>
+				<option value=117>Port Ann (SSE)</option>
+				<option value=118>Quoich (SSE)</option>
+				<option value=119>Redmoss (SSE)</option>
+				<option value=120>Shin (SSE)</option>
+				<option value=121>Sloy (SSE)</option>
+				<option value=122>Strichen (SSE)</option>
+				<option value=123>Tarland (SSE)</option>
+				<option value=124>Taynuilt (SSE)</option>
+				<option value=125>Thurso (SSE)</option>
+				<option value=126>Tummel Bridge (SSE)</option>
+				<option value=127>Willowdale (SSE)</option>
+				<option value=128>Woodhill (SSE)</option>
+			</select><br/>
+			<p class="left"><strong>Select a month to analyse:</strong></p>
+			<p class="left">Month:
+			<select name="month" id="month">
+				<option value=1>January</option>
+				<option value=2>February</option>
+				<option value=3>March</option>
+				<option value=4>April</option>
+				<option value=5>May</option>
+				<option value=6>June</option>
+				<option value=7>July</option>
+				<option value=8>August</option>
+				<option value=9>September</option>
+				<option value=10>October</option>
+				<option value=11>November</option>
+				<option value=12>December</option>
+				<option value=13>Whole Year</option>
+			</select></p>
+			<p style="color:red;"id="demo" class ="left"></p>		
+			<input type="submit" value="Plot Profile">
+			<input type="submit" formaction={% url 'wholeData' %} value="Download Data">
+			<br/>
+
+		</form>
+	</div>
+</div>
+
+	
+
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+
+
+function checkform(){
+
+	var urbanEV = document.forms["frm"]["urbanEV"].value;
+	var ruralEV = document.forms["frm"]["ruralEV"].value;
+	var smallHP = document.forms["frm"]["smallHP"].value;
+	var mediumHP = document.forms["frm"]["mediumHP"].value;
+	var largeHP = document.forms["frm"]["largeHP"].value;
+	var smallSH = document.forms["frm"]["smallSH"].value;
+	var mediumSH = document.forms["frm"]["mediumSH"].value;
+	var largeSH = document.forms["frm"]["largeSH"].value;
+	var manufacturingHP = document.forms["frm"]["manufacturingHP"].value;
+	var commercialHP = document.forms["frm"]["commercialHP"].value;
+	var entertainmentHP = document.forms["frm"]["entertainmentHP"].value;
+	var educationHP = document.forms["frm"]["educationHP"].value;
+	var windCapacity = document.forms["frm"]["windCapacity"].value;
+	var windNumber = document.forms["frm"]["windNumber"].value;
+	var pvCapacity = document.forms["frm"]["pvCapacity"].value;
+	var pvNumber = document.forms["frm"]["pvNumber"].value;
+	var esCapacity = document.forms["frm"]["esCapacity"].value;
+	
+	formatInputs(urbanEV, "urbanEV")
+	formatInputs(ruralEV, "ruralEV")
+	formatInputs(smallHP, "smallHP")
+	formatInputs(mediumHP, "mediumHP")
+	formatInputs(largeHP, "largeHP")
+	formatInputs(smallSH, "smallSH")
+	formatInputs(mediumSH, "mediumSH")
+	formatInputs(largeSH, "largeSH")
+	formatInputs(manufacturingHP, "manufacturingHP")
+	formatInputs(commercialHP, "commercialHP")
+	formatInputs(entertainmentHP, "entertainmentHP")
+	formatInputs(educationHP, "educationHP")
+	formatInputs(windCapacity, "windCapacity")
+	formatInputs(windNumber, "windNumber")
+	formatInputs(pvCapacity, "pvCapacity")
+	formatInputs(pvNumber, "pvNumber")
+	formatInputs(esCapacity, "esCapacity")
+	
+	
+	if (urbanEV<0 || ruralEV<0){
+		document.getElementById("evWarning").innerHTML = "Please check your inputs - EV percentages cannot be negative";
+		return false;	
+	} else if (smallHP<0 || mediumHP<0 || largeHP<0){
+		document.getElementById("hpWarning").innerHTML = "Please check your inputs - Heat Pump percentages cannot be negative";
+		return false;		
+	} else if (smallSH<0 || mediumSH<0 || largeSH<0){
+		document.getElementById("shWarning").innerHTML = "Please check your inputs - Storage Heater percentages cannot be negative";
+		return false;		
+	} else if (manufacturingHP<0 || commercialHP<0 || entertainmentHP<0 || educationHP<0){
+		document.getElementById("ihWarning").innerHTML = "Please check your inputs - Percentage of Industrial Heat cannot be negative";
+		return false;
+	} else if (windCapacity<0 || windNumber<0 || pvCapacity<0 || pvNumber<0){
+		document.getElementById("genWarning").innerHTML = "Please check your inputs - Renewable Generation parameters cannot be negative";
+		return false;		
+	} else if (esCapacity<0){
+		document.getElementById("storageWarning").innerHTML = "Please check your inputs - Battery Capacity cannot be negative";
+		return false;
+	} else if ((windCapacity>0 && windNumber<=0) || (windNumber>0 && windCapacity<=0)){
+		document.getElementById("genWarning").innerHTML = "Please input both installed wind capacity and the number of turbines in the area";
+		return false;
+	} else if ((pvCapacity>0 && pvNumber<=0) || (pvNumber>0 && pvCapacity<=0)){
+		document.getElementById("genWarning").innerHTML = "Please input both installed PV capacity and the number of installations in the area";
+		return false;
+	} else {
+		document.getElementById("demo").innerHTML = "";
+		document.getElementById("evWarning").innerHTML = "";
+		document.getElementById("hpWarning").innerHTML = "";
+		document.getElementById("shWarning").innerHTML = "";
+		document.getElementById("ihWarning").innerHTML = "";
+		document.getElementById("genWarning").innerHTML = "";
+		document.frm.submit();
+	}
+}
+
+function formatInputs(input, inputName){
+	if (input === ""){
+			document.getElementById(inputName).value = "0";
+	} else {
+		return;
+	}
+}
+
+</script>
+</body>
+{% endblock %}
+</html>

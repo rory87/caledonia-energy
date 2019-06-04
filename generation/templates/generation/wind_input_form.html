@@ -1,0 +1,107 @@
+<html>
+<head>
+{% extends "home/base_generic.html" %}
+</head>
+
+{% block content %}
+
+<body>
+<div class="container">
+	<div class="mainCentreLower">
+		<h1 class="heading1">Wind Farm Output</h1>
+		<p class="left">In this section, you can model the output of a particular wind farm at a specified location within Scotland. In summary, you should 
+		define the following parameters:</p>
+		<ul class="list">
+			<li>Installed Capacity (in MW) of the wind turbine.</li>
+			<li>The location of the generator - this is defined by its latitude and longitude.</li>
+			<li>A time frame for analysis.</li>
+		</ul>
+		<p class="left">Fill in the fields below and click either download or plot to access the data.</p>
+		</br>
+		<form  name="frm" action={% url 'plotWind' %} method="get" onsubmit="return checkform()">
+			<p class="left">Wind Farm Capacity Rating (MW):</p>
+			<input type="number" name="ratingWind" step="0.001" id="rating"></br>
+			<p style="color:red;" id="ratingWarning" class ="left"></p>
+			<p class="left">Number of wind turbines in wind farm:</p>
+			<input type="number" name="turbineNo" id="turbine"></br>
+			<p style="color:red;" id="turbineWarning" class ="left"></p>
+			<p class="left">Latitude:</p>
+			<input type="number" name="latitude" id="latitude" step="0.00001"></br>
+			<p style="color:red;" id="latWarning" class ="left"></p>
+			<p class="left">Longitude:</p>
+			<input type="number" name="longitude" id="longitude" step="0.00001"></br>
+			<p style="color:red;" id="lonWarning" class ="left"></p>
+			<p class="left"><strong>Select the time period:</strong></p>
+			<p class="left">Month:
+			<select name="month" id="month">
+				<option value=1>January</option>
+				<option value=2>February</option>
+				<option value=3>March</option>
+				<option value=4>April</option>
+				<option value=5>May</option>
+				<option value=6>June</option>
+				<option value=7>July</option>
+				<option value=8>August</option>
+				<option value=9>September</option>
+				<option value=10>October</option>
+				<option value=11>November</option>
+				<option value=12>December</option>
+			</select></p>
+			<p class="left">No. of Days:
+			<input type="number" name="days" id="days"></p>
+			<p style="color:red;"id="demo" class ="left"></p>		
+			<input type="submit" value="Plot Turbine Output">
+			<input type="submit" formaction={% url 'dataWind' %} value="Download Turbine Output Data">
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+function checkform(){
+	var days = document.forms["frm"]["days"].value;
+	var month = document.forms["frm"]["month"].value;
+	var latitude = document.forms["frm"]["latitude"].value;
+	var longitude = document.forms["frm"]["longitude"].value;
+	var rating = document.forms["frm"]["rating"].value;
+	var turbine = document.forms["frm"]["turbine"].value;
+	if  ((month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12 ) && days > 31){
+		document.getElementById("demo").innerHTML = "Check the number of days and try again";
+        return false;
+	} else if ((month==4 || month ==6 || month==9 || month==11) && days > 30){
+		document.getElementById("demo").innerHTML = "Check the number of days and try again";
+        return false;	
+	} else if (month == 2 && days > 29){
+		document.getElementById("demo").innerHTML = "Check the number of days and try again";
+		return false;
+	} else if (latitude < 54.5 || latitude > 59.5){
+		document.getElementById("latWarning").innerHTML = "Check the latitude value and try again - the value must be between 54.5 and 59";
+		return false;
+	} else if (longitude < -8 || longitude > -1){
+		document.getElementById("lonWarning").innerHTML = "Check the longitude value and try again";
+		return false;
+	} else if (days == ''){
+		document.getElementById("demo").innerHTML = "Please Specify the number of days";
+		return false;
+	} else if (rating<=0){
+		document.getElementById("ratingWarning").innerHTML = "Capacity rating cannot be zero or negative";
+		return false;
+	} else if (turbine<=0){
+		document.getElementById("turbineWarning").innerHTML = "Number of Turbines cannot be zero or negative";
+		return false;
+	} else {
+		document.getElementById("ratingWarning").innerHTML = "";
+		document.getElementById("turbineWarning").innerHTML ="";
+		document.getElementById("lonWarning").innerHTML = "";
+		document.getElementById("latWarning").innerHTML = "";
+		document.getElementById("demo").innerHTML = "";
+		document.frm.submit();
+	}
+}
+
+</script>
+
+</body>
+
+{% endblock %}
+</html>
