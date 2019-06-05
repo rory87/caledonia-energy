@@ -69,13 +69,9 @@
 				<button class="collapsible" type="button"><strong>Renewable Generation Scenarios</strong></button>
 			<div class="content">
 				<p class="left">Total Installed Capacity of New Wind Farms at Distribution Level (MW):</p>
-				<input type="number" name="windCapacity" id="windCapacity"></br>
-				<p class="left">Total Number of New Wind Turbines at Distribution Level:</p>
-				<input type="number" name="windNumber" id="windNumber"></br>
+				<input type="number" name="windCapacity" id="windCapacity" step="0.01"></br>
 				<p class="left">Total Installed PV Capacity at Distribution Level (MW):</p>
-				<input type="number" name="pvCapacity" id="pvCapacity"></br>
-				<p class="left">Total Number of New PV installations at Distribution Level:</p>
-				<input type="number" name="pvNumber" id="pvNumber"></br>
+				<input type="number" name="pvCapacity" id="pvCapacity" step="0.01"></br>
 				<br>
 				</br>
 			</div>
@@ -280,9 +276,7 @@ function checkform(){
 	var entertainmentHP = document.forms["frm"]["entertainmentHP"].value;
 	var educationHP = document.forms["frm"]["educationHP"].value;
 	var windCapacity = document.forms["frm"]["windCapacity"].value;
-	var windNumber = document.forms["frm"]["windNumber"].value;
 	var pvCapacity = document.forms["frm"]["pvCapacity"].value;
-	var pvNumber = document.forms["frm"]["pvNumber"].value;
 	var esCapacity = document.forms["frm"]["esCapacity"].value;
 	
 	formatInputs(urbanEV, "urbanEV")
@@ -298,9 +292,7 @@ function checkform(){
 	formatInputs(entertainmentHP, "entertainmentHP")
 	formatInputs(educationHP, "educationHP")
 	formatInputs(windCapacity, "windCapacity")
-	formatInputs(windNumber, "windNumber")
 	formatInputs(pvCapacity, "pvCapacity")
-	formatInputs(pvNumber, "pvNumber")
 	formatInputs(esCapacity, "esCapacity")
 	
 	
@@ -316,17 +308,8 @@ function checkform(){
 	} else if (manufacturingHP<0 || commercialHP<0 || entertainmentHP<0 || educationHP<0){
 		document.getElementById("ihWarning").innerHTML = "Please check your inputs - Percentage of Industrial Heat cannot be negative";
 		return false;
-	} else if (windCapacity<0 || windNumber<0 || pvCapacity<0 || pvNumber<0){
-		document.getElementById("genWarning").innerHTML = "Please check your inputs - Renewable Generation parameters cannot be negative";
-		return false;		
 	} else if (esCapacity<0){
 		document.getElementById("storageWarning").innerHTML = "Please check your inputs - Battery Capacity cannot be negative";
-		return false;
-	} else if ((windCapacity>0 && windNumber<=0) || (windNumber>0 && windCapacity<=0)){
-		document.getElementById("genWarning").innerHTML = "Please input both installed wind capacity and the number of turbines in the area";
-		return false;
-	} else if ((pvCapacity>0 && pvNumber<=0) || (pvNumber>0 && pvCapacity<=0)){
-		document.getElementById("genWarning").innerHTML = "Please input both installed PV capacity and the number of installations in the area";
 		return false;
 	} else {
 		document.getElementById("demo").innerHTML = "";

@@ -107,9 +107,7 @@ def whole_plot(request):
     educationHP = int(request.GET['educationHP'])
     #Renewable Generation GET Requests
     windCapacity = int(request.GET['windCapacity'])
-    windNumber = int(request.GET['windNumber'])
     pvCapacity = int(request.GET['pvCapacity'])
-    pvNumber = int(request.GET['pvNumber'])
     #Energy Storage GET Requests
     esCapacity = int(request.GET['esCapacity'])
 
@@ -186,19 +184,21 @@ def whole_plot(request):
     #Renewable Generation Output
     
     ###PV Generation###
-    if pvCapacity == 0 or pvNumber == 0:
+    if pvCapacity == 0:
         pvOutput=np.zeros(d*24)
     else:
-        ratingPV = (pvCapacity/pvNumber) * 1e6
+        ratingPV = 5000 # average PV installation rating, in Watts
+        pvNumber = int((pvCapacity*1e6) / ratingPV)
         pvOutputProxy = pvPowerOut(tmy_data, latitude, longitude, altitude, ratingPV)
         pvOutput = ((pvOutputProxy.as_matrix() * pvNumber)/1e6) #Total PV output in MW.
     ###             ###
 
     ###Wind Generation###
-    if windCapacity == 0 or windNumber == 0:
+    if windCapacity == 0:
         windOutput=np.zeros(d*24)
     else:
-        ratingWind = (windCapacity/windNumber) * 1e3 # ratingWind has to be put into kW 
+        ratingWind = 1000 # ratingWind has to be put into kW
+        windNumber = int((windCapacity*1e3)/ratingWind)
         windOutputProxy = calculateWindOutput(tmy_data, ratingWind)
         windOutput = ((windOutputProxy*windNumber)/1e3) #Total PV output in MW.
     ###             ###
@@ -272,8 +272,8 @@ def whole_plot(request):
     graphic = graphic.decode('utf-8')
 
     ##Statistics for outputting with the plots
-    maxGSP = round(max(gspBaseData),2)
-    maxNew = round(max(modelledGSP),2)
+    maxGSP = round(max(gspBaseData, key=abs),2)
+    maxNew = round(max(modelledGSP, key=abs),2)
 
     if esCapacity == 0:
         return render(request, 'whole/show_plot.html',{'graphic':graphic, 'firm': statGSP[0,1], 'maxGSP': maxGSP,'maxNew': maxNew})
@@ -323,10 +323,8 @@ def whole_data(request):
     entertainmentHP = int(request.GET['entertainmentHP'])
     educationHP = int(request.GET['educationHP'])
     #Renewable Generation GET Requests
-    windCapacity = int(request.GET['windCapacity'])
-    windNumber = int(request.GET['windNumber'])
-    pvCapacity = int(request.GET['pvCapacity'])
-    pvNumber = int(request.GET['pvNumber'])
+    windCapacity = int(request.GET['windCapacity'])    
+    pvCapacity = int(request.GET['pvCapacity'])    
     #Energy Storage GET Requests
     esCapacity = int(request.GET['esCapacity'])
 
@@ -402,19 +400,21 @@ def whole_data(request):
     #Renewable Generation Output
     
     ###PV Generation###
-    if pvCapacity == 0 or pvNumber == 0:
+    if pvCapacity == 0:
         pvOutput=np.zeros(d*24)
     else:
-        ratingPV = (pvCapacity/pvNumber) * 1e6
+        ratingPV = 5000 # average PV installation rating, in Watts
+        pvNumber = int((pvCapacity*1e6) / ratingPV)
         pvOutputProxy = pvPowerOut(tmy_data, latitude, longitude, altitude, ratingPV)
         pvOutput = ((pvOutputProxy.as_matrix() * pvNumber)/1e6) #Total PV output in MW.
     ###             ###
 
     ###Wind Generation###
-    if windCapacity == 0 or windNumber == 0:
+    if windCapacity == 0:
         windOutput=np.zeros(d*24)
     else:
-        ratingWind = (windCapacity/windNumber) * 1e3 # ratingWind has to be put into kW 
+        ratingWind = 1000 # ratingWind has to be put into kW
+        windNumber = int((windCapacity*1e3)/ratingWind) 
         windOutputProxy = calculateWindOutput(tmy_data, ratingWind)
         windOutput = ((windOutputProxy*windNumber)/1e3) #Total PV output in MW.
     ###             ###
@@ -517,9 +517,7 @@ def whole_plot_num(request):
     educationHP = int(request.GET['educationHP'])
     #Renewable Generation GET Requests
     windCapacity = int(request.GET['windCapacity'])
-    windNumber = int(request.GET['windNumber'])
     pvCapacity = int(request.GET['pvCapacity'])
-    pvNumber = int(request.GET['pvNumber'])
     #Energy Storage GET Requests
     esCapacity = int(request.GET['esCapacity'])
 
@@ -586,19 +584,21 @@ def whole_plot_num(request):
     #Renewable Generation Output
 
     ###PV Generation###
-    if pvCapacity == 0 or pvNumber == 0:
+    if pvCapacity == 0:
         pvOutput=np.zeros(d*24)
     else:
-        ratingPV = (pvCapacity/pvNumber) * 1e6
+        ratingPV = 5000 # average PV installation rating, in Watts
+        pvNumber = int((pvCapacity*1e6) / ratingPV)
         pvOutputProxy = pvPowerOut(tmy_data, latitude, longitude, altitude, ratingPV)
         pvOutput = ((pvOutputProxy.as_matrix() * pvNumber)/1e6) #Total PV output in MW.
     ###             ###
 
     ###Wind Generation###
-    if windCapacity == 0 or windNumber == 0:
+    if windCapacity == 0:
         windOutput=np.zeros(d*24)
     else:
-        ratingWind = (windCapacity/windNumber) * 1e3 # ratingWind has to be put into kW
+        ratingWind = 1000 # ratingWind has to be put into kW
+        windNumber = int((windCapacity*1e3)/ratingWind) 
         windOutputProxy = calculateWindOutput(tmy_data, ratingWind)
         windOutput = ((windOutputProxy*windNumber)/1e3) #Total PV output in MW.
     ###             ###
@@ -670,8 +670,8 @@ def whole_plot_num(request):
     graphic = graphic.decode('utf-8')
 
     ##Statistics for outputting with the plots
-    maxGSP = round(max(gspBaseData),2)
-    maxNew = round(max(modelledGSP),2)
+    maxGSP = round(max(gspBaseData, key=abs),2)
+    maxNew = round(max(modelledGSP, key=abs),2)
 
     if esCapacity == 0:
         return render(request, 'whole/show_plot.html',{'graphic':graphic, 'firm': statGSP[0,1], 'maxGSP': maxGSP,'maxNew': maxNew})
@@ -703,9 +703,7 @@ def whole_data_num(request):
     educationHP = int(request.GET['educationHP'])
     #Renewable Generation GET Requests
     windCapacity = int(request.GET['windCapacity'])
-    windNumber = int(request.GET['windNumber'])
     pvCapacity = int(request.GET['pvCapacity'])
-    pvNumber = int(request.GET['pvNumber'])
     #Energy Storage GET Requests
     esCapacity = int(request.GET['esCapacity'])
 
@@ -772,19 +770,21 @@ def whole_data_num(request):
     #Renewable Generation Output
 
     ###PV Generation###
-    if pvCapacity == 0 or pvNumber == 0:
+    if pvCapacity == 0:
         pvOutput=np.zeros(d*24)
     else:
-        ratingPV = (pvCapacity/pvNumber) * 1e6
+        ratingPV = 5000 # average PV installation rating, in Watts
+        pvNumber = int((pvCapacity*1e6) / ratingPV)
         pvOutputProxy = pvPowerOut(tmy_data, latitude, longitude, altitude, ratingPV)
         pvOutput = ((pvOutputProxy.as_matrix() * pvNumber)/1e6) #Total PV output in MW.
     ###             ###
 
     ###Wind Generation###
-    if windCapacity == 0 or windNumber == 0:
+    if windCapacity == 0:
         windOutput=np.zeros(d*24)
     else:
-        ratingWind = (windCapacity/windNumber) * 1e3 # ratingWind has to be put into kW
+        ratingWind = 1000 # ratingWind has to be put into kW
+        windNumber = int((windCapacity*1e3)/ratingWind) 
         windOutputProxy = calculateWindOutput(tmy_data, ratingWind)
         windOutput = ((windOutputProxy*windNumber)/1e3) #Total PV output in MW.
     ###             ###
