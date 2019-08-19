@@ -1034,7 +1034,7 @@ def fes18_analysis(request):
     manufacturingHP = 0
 
     #Fetch Primary Substation Statistics and Base Demand for the relevant GSP
-    if supplyPoint > 77:
+    if supplyPoint > 76:
         pri = process_data_normal((primarySSEStats.objects.filter(gsp = supplyPoint)), primarySSEStats, 5)
         subIndex = pri[0:,0]
         subNames = pri[0:,1]
@@ -1167,7 +1167,7 @@ def fes18_analysis(request):
     #Sum up Primary Flows
     lowCarbonPrimary = (hpTotalRes + hpTotalInd + evTotal +  hpTotalIndGSP - windSmallTotal - pvSmallTotal)
 
-    if supplyPoint > 77:
+    if supplyPoint > 76:
         delCustomers = np.where(subCustomers == 0)[0]
         delRating = np.where(subRating == 0)[0]
 
@@ -1204,7 +1204,8 @@ def fes18_analysis(request):
             for i in range(1,(day+1)):
               model, sol, flo, cha, dis, nD = runSolutionBalance(bat, (mainPri[(24*i)-24:(24*i)]))
               demandWithESPrimaryProxy[0:,(i-1)]=nD
-        demandWithES=demandWithESPrimaryProxy.reshape((day*24),order='F')
+
+            demandWithES=demandWithESPrimaryProxy.reshape((day*24),order='F')
 
 
 
@@ -1222,7 +1223,7 @@ def fes18_analysis(request):
 
 
     #Sum up GSP Flows
-    if supplyPoint > 77:
+    if supplyPoint > 76:
         lowCarbonGSP = ((lowCarbonPrimary*psRatio) - windLargeTotal - pvLargeTotal)
     else:
         lowCarbonGSP = (lowCarbonPrimary - windLargeTotal - pvLargeTotal)
@@ -1273,7 +1274,7 @@ def fes18_analysis(request):
     for x in range(0, len(newYears)):
          years[x]=str(newYears[x])
 
-    if supplyPoint > 77:
+    if supplyPoint > 76:
         newP=np.transpose(newPrimaryDemand)
 
         dataSend=list(range(newP.shape[0]))
@@ -1298,6 +1299,19 @@ def fes18_analysis(request):
         dataForTable.iloc[2:newP.shape[1]+2, 0] = subNames
         dataForTable.iloc[2:newP.shape[1]+2, 1] = subRating
 
+        dataForTable.iloc[1,0] = gspName.name + ' (GSP)'
+        dataForTable.iloc[1,1] = int(firm)
+        if any(peakGSP > 1) or any(peakGSP < -1):
+            dataForTable.iloc[1,2] = 'Yes'
+            if max(peakGSP) > abs(min(peakGSP)):
+               dataForTable.iloc[1,3] = str(years[np.where((peakGSP > 1) == True)[0][0]])
+            else:
+               dataForTable.iloc[1,3] = str(years[np.where((peakGSP < -1) == True)[0][0]])
+        else:
+            dataForTable.iloc[1,2] = 'No'
+            dataForTable.iloc[1,3] = 'N/A'
+
+        dataForTable.iloc[1,4] = peakGSP[peakGSP.shape[0]-1]*firm
 
 
 
@@ -1353,7 +1367,7 @@ def fes18_analysis(request):
     demN = demandNumbers.as_matrix().tolist()
 
     t2040 = pd.DataFrame(np.zeros([2, 5]))
-    t2040.iloc[0,0:] = ['Heat Pumps', 'EV', 'Wind', 'PV', 'Storage']
+    t2040.iloc[0,0:] = ['Heat Pumps', 'EV', 'Wind (MW)', 'PV (MW)', 'Storage (MW)']
     t2040.iloc[1,0] = demandNumbers.iloc[23, 1]
     t2040.iloc[1,1] = demandNumbers.iloc[23, 2]
     t2040.iloc[1,2] = demandNumbers.iloc[23, 3]
