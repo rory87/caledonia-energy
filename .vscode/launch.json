@@ -1,8 +1,31 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-    ]
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch views.py",
+			"type": "python",
+			"request": "launch",
+			"cwd": "${workspaceFolder}/whole",
+			"program": "${workspaceFolder}/whole/views.py"
+		},
+		{
+			"name": "Launch Chrome 127.0.0.1",
+			"type": "chrome",
+			"request": "launch",
+			"port": 9226,
+			"webRoot": "${workspaceFolder}",
+			"url": "http://127.0.0.1:50704/p/caledonia-energy/whole/templates/whole/fes18_form.html?_cmAuth\u003dbdukjhfbgv"
+		},
+		{
+			"name": "Launch Chrome 127.0.0.1 (1)",
+			"type": "chrome",
+			"request": "launch",
+			"port": 9287,
+			"webRoot": "${workspaceFolder}",
+			"url": "http://127.0.0.1:50704/p/caledonia-energy/whole/templates/whole/fes18_plot.html?_cmAuth\u003dbdukjhfbgv"
+		}
+	]
 }

@@ -1,0 +1,178 @@
+
+<html>
+{% extends "home/base_generic.html" %}
+<head>
+{% block script %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script  type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+	var w = window.innerWidth;
+	if (w > 1500 && w < 2500 ) {
+	    wid = 1000;
+		high = 500;
+	} else if (w < 1500 && w > 500){
+		wid = 750;
+		high = 300;
+	} else if (w < 500){
+		wid = 500;
+		high = 200;
+	}
+	
+	var djangodata = {{djangodict|safe}};
+	var data = google.visualization.arrayToDataTable(djangodata);
+    var options = { 		
+		hAxis: {
+    		ticks: [2020, 2025, 2030, 2035, 2040],
+    		format: '####'
+		},
+		vAxis: {
+		title: 'Peak Demand as a Percentage of Rating',
+		format:'#,###%',
+		},
+		width: wid,
+		height: high,
+		title: 'FES 208 Analysis: {{gspName|safe}} GSP Substation Peak Demands under {{ scenario|safe }} Scenario '
+	};
+  var chart = new google.visualization.LineChart(document.getElementById('linechart_primary'));    
+  chart.draw(data, options);
+  document.getElementById('pngTop').outerHTML = '<a href="' + chart.getImageURI() + '">Save Image</a>'
+  }
+
+</script>
+<script  type="text/javascript">
+	google.charts.load('current', {'packages':['table']});
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawTable);
+
+	function drawTable(){
+	var w = window.innerWidth;
+	if (w > 1500 && w < 2500 ) {
+	    wid = 1000;
+		high = 200;
+	} else if (w < 1500 && w > 500){
+		wid = 750;
+		high = 300;
+	} else if (w < 500){
+		wid = 500;
+		high = 200;
+	}
+		var djangotable2 = {{djangotable|safe}};
+		var data = google.visualization.arrayToDataTable(djangotable2);
+		
+		var table = new google.visualization.Table(document.getElementById('table_div'))
+		table.draw(data, {width: wid, height:high,});
+
+	}
+</script>
+
+<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(draw);
+
+	function draw(){
+
+		var w = window.innerWidth;
+		if (w > 1500 && w < 2500 ) {
+			wid = 1000;
+			high = 500;
+		} else if (w < 1500 && w > 500){
+			wid = 750;
+			high = 300;
+		} else if (w < 500){
+			wid = 500;
+			high = 200;
+		}
+
+		var djangodata = {{demandnumbers|safe}};
+		var data = google.visualization.arrayToDataTable(djangodata);
+
+
+
+        var options = {
+          title: 'Low Carbon Technology Growth in {{gspName|safe}} GSP Area under {{scenario|safe}}',
+          hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          
+          series: {
+          0: {targetAxisIndex: 0},
+          1: {targetAxisIndex: 0},
+          2: {targetAxisIndex: 1}, 
+		  3: {targetAxisIndex: 1},
+		  4: {targetAxisIndex: 1}
+          },
+          
+          vAxes: {
+          // Adds titles to each axis.
+          0: {title: 'Heat Pump and EV Numbers'},
+          1: {title: 'Installed DER Capacity (MW)'}
+		}, 
+		
+		width: wid, 
+		height: high,
+		
+        
+          
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('fes_data'));
+        chart.draw(data, options);
+		document.getElementById('png').outerHTML = '<a href="' + chart.getImageURI() + '">Save Image</a>'
+      }
+
+	
+
+
+
+
+</script>
+
+<script type="text/javascript">
+
+	google.charts.load('current', {'packages':['table']});
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawTable);
+
+	function drawTable(){
+	var w = window.innerWidth;
+	if (w > 1500 && w < 2500 ) {
+	    wid = 1000;
+		high = 200;
+	} else if (w < 1500 && w > 500){
+		wid = 750;
+		high = 300;
+	} else if (w < 500){
+		wid = 500;
+		high = 200;
+	}
+		var djangotable2 = {{table2040|safe}};
+		var data = google.visualization.arrayToDataTable(djangotable2);
+		
+		var table = new google.visualization.Table(document.getElementById('table_div_2'))
+		table.draw(data, {width: wid, height:high,});
+
+	}
+
+</script>
+
+{% endblock %}
+</head>
+  
+{% block content %}
+  <body>
+	  <div class="mainCentre">
+		<br></br>
+		<div id="linechart_primary"></div>
+		<div id='pngTop'></div>
+		<br></br>
+		<div id="table_div"></div>
+		<br></br>
+		<div id="fes_data"></div>
+		<div id='png'></div>
+		<br></br>
+		<div id="table_div_2"></div>
+	 </div>
+
+  </body>
+{% endblock %}
+</html>

@@ -1,0 +1,333 @@
+1,Abernethy,77,2.5,669
+2,Balbeggie,77,5,1843
+3,Errol,77,5,2526
+4,Glendevon,77,8,726
+5,Milnathort,77,15,6003
+6,Perth Harbour,77,0,0
+7,Scone,77,15,3702
+8,Rumbling Bridge,77,0,0
+9,Balaldie,78,5,1555
+10,Contullich,78,0.1,14
+11,Crosshills,78,15,3490
+12,Glastullich,78,8,841
+13,Invergordon,78,15,2680
+14,Nigg,78,15,1
+15,Peddieston,78,2.5,765
+16,Tain,78,15,2422
+17,Carnoustie,79,15,5814
+18,Charles Avenue,79,10,5648
+19,Elliot Depot,79,15,1401
+20,Hume Street,79,24,6105
+21,Redford,79,8,1260
+22,Aird,80,8,978
+23,Clachan,80,1,338
+24,Drimore,80,2.5,455
+25,Loch Carnan,80,21,174
+26,Pollachar,80,2.5,1700
+27,Stockinish,80,1,416
+28,"Tarbert, Harris",80,0,984
+29,Aigas,81,0.5,64
+30,Blackstand,81,6,1515
+31,Conon Bridge,81,6.25,2669
+32,Dingwall,81,15,4672
+33,Kiltarlity,81,6,749
+34,Marybank,81,4,597
+35,Muir of Ord,81,24,4145
+36,Muirend,81,6,1212
+37,North Kessock,81,2.5,912
+38,Aviemore,82,24,2919
+39,Ballindalloch,82,12.5,1106
+40,Boat of Garten,82,0,0
+41,Dalwhinnie,82,1,294
+42,Grantown,82,15,2530
+43,Kingussie,82,7,2148
+44,Tomatin,82,2,298
+45,Callander,83,8,2528
+46,Crieff,83,15,5265
+47,Dunblane,83,12.5,5220
+48,Forteviot,83,6.3,1048
+49,Gleneagles,83,15,4056
+50,Kippen,83,8,1881
+51,Brechin,84,12.5,4824
+52,Bridge of Dun,84,0,0
+53,Glaxo,84,0,1
+54,Inchbare,84,2.5,381
+55,Logie Pert,84,5,313
+56,Mill Road,84,0,0
+57,Montrose North,84,15,4313
+58,St Cyrus,84,8,1152
+59,Achintee,85,1,30
+60,Broadford,85,0,15
+61,Kishorn Hill,85,0,0
+62,Kyle,85,5,887
+63,Lower Ollach,85,1,403
+64,Nostie Bridge,85,4,1175
+65,Shieldaig,85,1,415
+66,Skulamus,85,4,1206
+67,Brora,86,5,1166
+68,Dornoch,86,8,1693
+69,Golspie,86,3.5,981
+70,Helmsdale,86,4,666
+71,Burghmuir,87,0,0
+72,Goodlyburn,87,12.5,4935
+73,North Muirton,87,10,1391
+74,Redgorton,87,15,3504
+75,Thimblerow,87,21,7813
+76,Balliekine,88,1,229
+77,Ballure,88,2.5,485
+78,Brodick,88,8,2152
+79,Campbeltown,88,15,4408
+80,Claonaig,88,0.2,74
+81,Dippen,88,1,338
+82,Machrie,88,2.5,550
+83,West Parkfergus,88,0,0
+84,Whiting Bay,88,8,1029
+85,Charleston,89,15,1834
+86,Gourdie,89,6.3,1501
+87,Menzieshill,89,21,5973
+88,Ninewells,89,15,1952
+89,Butterbridge,90,0.15,3
+90,Douglas Pier,90,2.5,322
+91,Inveraray,90,2.5,90
+92,Lochgoilhead,90,1.5,189
+93,Strachur,90,1,338
+94,Balnagask,91,23,1877
+95,Clayhills,91,24,8807
+96,Commerce Street,91,23,2062
+97,Craiginches,91,30,4565
+98,Alyth,92,5,2159
+99,Blairgowrie,92,23,5413
+100,Caputh,92,15,2969
+101,Coupar Angus,92,8,2398
+102,Dalrulzion,92,2.5,815
+103,Leoch,92,6.3,1858
+104,Craigiebuckler,93,24,3925
+105,Craigton Cults,93,0,0
+106,Culter,93,24,3949
+107,Ruthrieston,93,23,7470
+108,Constable Street,94,15,7484
+109,Rosebank Street,94,23,11059
+110,Bruchag,95,10,1887
+111,Colintraive,95,0.5,94
+112,Dunoon,95,24,5080
+113,Glendaruel,95,0.3,123
+114,Innellan,95,6.25,939
+115,Kames,95,2.5,642
+116,Newton,95,0,0
+117,Otter Ferry,95,2.5,308
+118,Rothesay,95,24,4661
+119,Sandbank,95,8,1718
+120,Drynoch,96,2.5,902
+121,Dunvegan,96,0,1124
+122,Portree,96,7.5,2222
+123,Uig,96,2.5,824
+124,Balmedie,97,8,2125
+125,Dyce North,97,0,3564
+126,Ellon,97,0,7193
+127,Kingseat,97,5,2298
+128,Ashgrove,98,10,4628
+129,Bilbohal,98,0,0
+130,Burghead,98,15,2393
+131,Cumming Street,98,24,4430
+132,Elgin,98,10,3428
+133,Fochabers,98,15,2567
+134,Kinloss,98,15,1299
+135,Lhanbryde,98,5,1373
+136,Lossiemouth,98,15,3536
+137,Edzell,99,8,1366
+138,Inverbervie,99,8,2133
+139,Laurencekirk,99,5,2800
+140,Stonehaven,99,24,6445
+141,Aberchalder,100,0,0
+142,Bunoich,100,1,249
+143,Glen Laogh,100,0,3
+144,Glendoe,100,0,0
+145,Invergarry,100,1,169
+146,Markethill,100,0,0
+147,Annat,101,15,1315
+148,Arisaig,101,2.5,355
+149,Corran,101,2.5,541
+150,Glensanda,101,15,1
+151,Glenuig,101,0,27
+152,Inverlochy,101,15,3422
+153,Kingairloch,101,0,27
+154,Kinlochmoidart,101,2.5,24
+155,Liddesdale,101,0,0
+156,Lochaline,101,5,246
+157,Mallaig,101,8,666
+158,Pinegrove,101,10,2296
+159,Poor House,101,0,7
+160,Rahoy,101,1,14
+161,"Salen, Mull",101,0,829
+162,Shona Beag,101,0,10
+163,Strontian,101,2.5,275
+164,Fraserburgh,102,0,0
+165,Achiltibuie,103,0,284
+166,Aultbea,103,0,1051
+167,Conon Falls,103,0.8,126
+168,Drumrunie,103,0,116
+169,Garbat Forest,103,0,2
+170,Inverbroom,103,0,78
+171,Kerry Falls,103,0,887
+172,Kinlochewe,103,0,328
+173,Letterewe,103,0,4
+174,Loch Glascarnoch,103,0,1
+175,Lochinver,103,0,833
+176,Minor Grudie,103,0,1
+177,Ullapool,103,0,951
+178,Culloden,104,15,6163
+179,Dalneigh,104,24,7433
+180,Errogie,104,1.5,69
+181,Foyers,104,5,134
+182,Hilton,104,0,0
+183,Inverarnie,104,2.5,390
+184,Inverness,104,0,0
+185,Raigmore,104,24,3904
+186,Waterloo Place,104,23,2701
+187,Aberlour,105,5,1106
+188,Buckie,105,24,6270
+189,Cullen,105,5,2083
+190,Dufftown,105,5,1668
+191,Huntly,105,15,3580
+192,Insch,105,7,3277
+193,Keith,105,15,3534
+194,Limehillocks,105,2.5,856
+195,Marnoch,105,6.25,1756
+196,Rothes,105,5,1357
+197,Cashlie,106,0,73
+198,Coshieville,106,2.5,838
+199,Killin Town,106,,528
+200,Kingshouse,106,0,0
+201,Loch Lubnaig,106,0,0
+202,Lochearnhead,106,4,643
+203,Wester Drummond,106,0.1,13
+204,Banchory,107,14,5582
+205,Fyvie,107,8,1685
+206,Inverurie,107,17,8197
+207,Kemnay,107,15,2194
+208,Methlick,107,5,1118
+209,Midmar,107,5,1415
+210,Oldmeldrum,107,8,2703
+211,Skene,107,30,5528
+212,Torryburn,107,24,4155
+213,Lairg,108,0,0
+214,Torboll,108,0.1,7
+215,Tressady,108,0.5,239
+216,Friokheim,109,0,0
+217,Inverarity,109,5,318
+218,Lochside,109,0,0
+219,Lunanhead,109,0,4104
+220,Maryton,109,15,4672
+221,Lochee,110,23,4241
+222,Lyndhurst,110,10,2196
+223,MacAlpine Road,110,15,5187
+224,West Kirkton,110,23,5045
+225,MacDuff,111,12.5,6506
+226,Portsoy,111,5,1212
+227,Turriff,111,15,4477
+228,Ashludie,112,10,5512
+229,Baldovie,112,24,5080
+230,Broughty Ferry,112,10,5039
+231,Edzell Street,112,10,2415
+232,Longhaugh,112,23,6426
+233,Milton of Craigie,112,0,4129
+234,Old Craigie Road,112,10,4073
+235,Bettyhill,113,2.5,491
+236,Coldbackie,113,2.5,380
+237,Latheron,113,4,1208
+238,Melvich,113,1,462
+239,Wick,113,24,5207
+240,Arderseir,114,0,0
+241,Dalcross,114,15,699
+242,Forres,114,15,6721
+243,Lethen,114,2.5,872
+244,Nairn Central,114,0,5832
+245,Bridge of Don,115,24,6760
+246,Haudagain,115,23,5613
+247,Northfield,115,15,4389
+248,St Machar,115,24,7055
+249,Stoneywood Mills T3,115,24,3377
+250,Stoneywood T1 T2,115,0,0
+251,Whitestripes,115,0,0
+252,Peterhead Grange,116,0,0
+253,Boddam,116,0,878
+254,Arigh-na-Brodaig,117,0,0
+255,Bowmore,117,8,1527
+256,Crinan,117,1,410
+257,Furnace Quarry,117,2.5,1
+258,Inverneil,117,2.5,452
+259,Lochgilphead,117,24,3035
+260,Lussagiven,117,0.1,13
+261,Port Askaig,117,2.5,469
+262,Port Ellen,117,4,835
+263,Stonefield,117,0,0
+264,"Tarbert, Jura",117,0,984
+265,"Tarbert, Loch Fyne",117,0,0
+266,Quoich,118,0,0
+267,Kincorth,119,12.5,4091
+268,Newtonhill,119,0,4851
+269,Park,119,0,0
+270,Redmoss,119,40,5018
+271,Gledfield,120,2.5,704
+272,Shin,120,0,223
+273,139002,121,0,0
+274,Hatton,122,5,2150
+275,Maud,122,8,1695
+276,Mintlaw,122,15,2786
+277,New Pitsligo,122,2.5,952
+278,Strichen,122,0,1646
+279,Aboyne,123,15,3092
+280,Ballater,123,15,2400
+281,Mossat,123,2.5,1296
+282,Strathdon,123,2.5,429
+283,Whitehouse,123,0,0
+284,Barcaldine,124,5,1080
+285,Bonawe,124,0.5,1
+286,Connel,124,8,701
+287,Dalmally,124,0.75,81
+288,Dervaig (incl Tiree),124,0,952
+289,Eredine,124,0.2,43
+290,Kenmore,124,1.5,110
+291,Kerrera,124,0,0
+292,Kilchrenan,124,1,287
+293,Kilmelford,124,0,0
+294,Kilninver,124,2.5,719
+295,Kinloch,124,2.5,637
+296,Lochdonhead,124,1,277
+297,Oban,124,24,5850
+298,"Salen, Acharacle",124,0,829
+299,Scammadale,124,0,0
+300,Taynuilt,124,0,780
+301,Tiroran Bridge,124,0,22
+302,Burgar Hill,125,0,0
+303,Eday,125,1,122
+304,Flotta,125,8,79
+305,Forss,125,2.5,420
+306,Halkirk,125,2.5,1105
+307,Hastigrow,125,5,1794
+308,Kirkwall,125,24,6231
+309,Lyness,125,1,285
+310,Mount Pleasant,125,0,0
+311,North Hoy,125,0.15,39
+312,Ormlie,125,7.5,4019
+313,Rousay,125,2.5,215
+314,Sanday,125,1,426
+315,Shapinsay,125,1,204
+316,St Mary's,125,0,0
+317,Stromness,125,8,2721
+318,Stronsay,125,1,217
+319,Westray,125,0,0
+320,Aberfeldy,126,8,1799
+321,Bonskeid,126,5,1029
+322,Calvine,126,2.5,300
+323,Fincastle,126,0.1,26
+324,Kinloch Rannoch,126,0,241
+325,Pitlochry,126,5,2032
+326,Tummel Bridge,126,0,0
+327,Denburn,127,21,5930
+328,Greyfriars,127,24,7114
+329,Hayton,127,23,5826
+330,St Nicholas,127,12.5,4277
+331,Queens Lane North,128,12.5,7468
+332,Springhill,128,21,8776
+333,Woodhill,128,0,0

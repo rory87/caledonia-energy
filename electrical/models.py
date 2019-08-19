@@ -7,3 +7,8 @@ class electricalGSP(models.Model):
     hour = models.IntegerField()
     GSP = models.IntegerField()
     electricalDemand = models.FloatField()
+
+class electricalPrimarySSE(models.Model):
+    hour = models.IntegerField()
+    primary = models.IntegerField()
+    electricalDemand = models.FloatField(null=True)

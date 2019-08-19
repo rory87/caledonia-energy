@@ -4,6 +4,8 @@
 <head>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% block script %}  
+{% endblock %}
 <title>Local Energy - Home</title>
 <style>
 html{
@@ -728,11 +730,30 @@ ul.list {
 			</div>
 		</div>
 		
-  <a href="{% url 'wholeInput' %}">Whole System Analysis</a>
   
-  <a href="">GSP Map</a>
+        <div class="dropdown">
+            <button class="dropbtn">Whole System Analysis
+            <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="{% url 'wholeInput' %}">Grid Supply Point Level</a>
+                <a href="{% url 'wholePrimary' %}">Primary Substation Level</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Future Energy Scenarios
+            <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="{% url 'fes18Form' %}">2018 Scenarios</a>
+            </div>
+        </div>        
   
-  <a href="{% url 'about'%}">About</a>
+         <a href="">GSP Map</a>
+  
+         <a href="{% url 'about'%}">About</a>
+       
   
   
   {% if user.is_authenticated %}
