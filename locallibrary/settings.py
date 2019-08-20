@@ -21,14 +21,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 ### SECURITY WARNING: keep the secret key used in production secret!
-with open('/home/rory/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
-
-DEBUG = False
+##with open('/home/rory/secret_key.txt') as f:
+##    SECRET_KEY = f.read().strip()
+##
+##DEBUG = False
 
 #######
 
-
+SECRET_KEY = 'e+**l2its66tt83#1s5i^$iaoq=lk-b&^o7tvtf6vz3t@ok6yp'
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -98,29 +99,29 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 ####This has been commented but shoud remain for production!####
-with open('/home/rory/database_credentials.txt') as f:
-    creds = f.read().strip().split("\n")
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': creds[0],
-        'USER': creds[1],
-        'PASSWORD': creds[2],
-        'HOST': 'localhost',
-        'PORT': '',
-}
-}
+##with open('/home/rory/database_credentials.txt') as f:
+##    creds = f.read().strip().split("\n")
+##
+##DATABASES = {
+##    'default': {
+##        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+##        'NAME': creds[0],
+##        'USER': creds[1],
+##        'PASSWORD': creds[2],
+##        'HOST': 'localhost',
+##        'PORT': '',
+##}
+##}
 
 
 ##################################################
 
-##DATABASES = {
-##    'default': {
-##        'ENGINE': 'django.db.backends.sqlite3',
-##        'NAME': os.path.join(BASE_DIR, 'db_nonSpatial.sqlite3'),
-##    }
-## }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db_nonSpatial.sqlite3'),
+    }
+ }
 
 #import dj_database_url
 

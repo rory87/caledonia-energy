@@ -1294,11 +1294,24 @@ def fes18_analysis(request):
 
         dictdata = (dataSend.as_matrix().tolist())
 
-        dataForTable = pd.DataFrame(np.zeros([newP.shape[1]+2, 6]))
-        dataForTable.iloc[0,0:] = ['Substation Name', 'Firm Rating (MVA)', 'Require Upgrade', 'Year of Required Upgrade', '2040 Peak Demand (MW)', '2018 Peak Demand (MW)']
+        dataForTable = pd.DataFrame(np.zeros([newP.shape[1]+2, 5]))
+        dataForTable.iloc[0,0:] = ['Substation Name', 'Firm Rating (MVA)', 'Require Upgrade', 'Year of Required Upgrade', '2040 Peak Demand (MW)']
         dataForTable.iloc[2:newP.shape[1]+2, 0] = subNames
         dataForTable.iloc[2:newP.shape[1]+2, 1] = subRating
 
+        dataForTable.iloc[1,0] = gspName.name + ' (GSP)'
+        dataForTable.iloc[1,1] = int(firm)
+        if any(peakGSP > 1) or any(peakGSP < -1):
+            dataForTable.iloc[1,2] = 'Yes'
+            if max(peakGSP) > abs(min(peakGSP)):
+               dataForTable.iloc[1,3] = str(years[np.where((peakGSP > 1) == True)[0][0]])
+            else:
+               dataForTable.iloc[1,3] = str(years[np.where((peakGSP < -1) == True)[0][0]])
+        else:
+            dataForTable.iloc[1,2] = 'No'
+            dataForTable.iloc[1,3] = 'N/A'
+
+        dataForTable.iloc[1,4] = peakGSP[peakGSP.shape[0]-1]*firm
 
 
 
@@ -1314,11 +1327,6 @@ def fes18_analysis(request):
                       dataForTable.iloc[i+2, 2] = 'No'
                       dataForTable.iloc[i+2, 3] = 'N/A'
                       dataForTable.iloc[i+2, 4] = newP[newP.shape[0]-1, i] * subRating[i]
-
-             if max(baseDemand[0:,i]) > abs(min(baseDemand[0:,i])):
-                dataForTable.iloc[i+2, 5] = max(baseDemand[0:,i])
-             else:
-                dataForTable.iloc[i+2, 5] =min(baseDemand[0:,i])
     else:
 
         dataSend=pd.DataFrame(np.zeros([24,2]))
@@ -1328,27 +1336,21 @@ def fes18_analysis(request):
         dataSend.iloc[1:,1] = peakGSP
         
 
-        dataForTable = pd.DataFrame(np.zeros([2,6]))
-        dataForTable.iloc[0,0:] = ['Substation Name', 'Firm Rating (MVA)', 'Require Upgrade', 'Year of Required Upgrade', '2040 Peak Demand (MW)', '2018 Peak Demand (MW)']
-
-    dataForTable.iloc[1,0] = gspName.name + ' (GSP)'
-    dataForTable.iloc[1,1] = int(firm)
-    if any(peakGSP > 1) or any(peakGSP < -1):
-        dataForTable.iloc[1,2] = 'Yes'
-        if max(peakGSP) > abs(min(peakGSP)):
-           dataForTable.iloc[1,3] = str(years[np.where((peakGSP > 1) == True)[0][0]])
+        dataForTable = pd.DataFrame(np.zeros([2,5]))
+        dataForTable.iloc[0,0:] = ['Substation Name', 'Firm Rating (MVA)', 'Require Upgrade', 'Year of Required Upgrade', '2040 Peak Demand (MW)']
+        dataForTable.iloc[1,0] = gspName.name + ' (GSP)'
+        dataForTable.iloc[1,1] = int(firm)
+        if any(peakGSP > 1) or any(peakGSP < -1):
+            dataForTable.iloc[1,2] = 'Yes'
+            if max(peakGSP) > abs(min(peakGSP)):
+               dataForTable.iloc[1,3] = str(years[np.where((peakGSP > 1) == True)[0][0]])
+            else:
+               dataForTable.iloc[1,3] = str(years[np.where((peakGSP < -1) == True)[0][0]])
         else:
-           dataForTable.iloc[1,3] = str(years[np.where((peakGSP < -1) == True)[0][0]])
-    else:
-        dataForTable.iloc[1,2] = 'No'
-        dataForTable.iloc[1,3] = 'N/A'
+            dataForTable.iloc[1,2] = 'No'
+            dataForTable.iloc[1,3] = 'N/A'
 
-    dataForTable.iloc[1,4] = peakGSP[peakGSP.shape[0]-1]*firm
-
-    if max(gspBaseData) > abs(min(gspBaseData)):
-        dataForTable.iloc[1,5] = max(gspBaseData)
-    else:
-        dataForTable.iloc[1,5] = min(gspBaseData)
+        dataForTable.iloc[1,4] = peakGSP[peakGSP.shape[0]-1]*firm
 
             
     dictdata = (dataSend.as_matrix().tolist())
@@ -1364,9 +1366,7 @@ def fes18_analysis(request):
     demandNumbers.iloc[1:24,5] = storageLarge + storageSmall
     demN = demandNumbers.as_matrix().tolist()
 
-    
     t2040 = pd.DataFrame(np.zeros([2, 5]))
-    t2040.iloc[0,0:] = ['Heat Pumps', 'EV', 'Wind', 'PV', 'Storage']
     t2040.iloc[0,0:] = ['Heat Pumps', 'EV', 'Wind (MW)', 'PV (MW)', 'Storage (MW)']
     t2040.iloc[1,0] = demandNumbers.iloc[23, 1]
     t2040.iloc[1,1] = demandNumbers.iloc[23, 2]
@@ -1375,6 +1375,7 @@ def fes18_analysis(request):
     t2040.iloc[1,4] = demandNumbers.iloc[23, 5]
     table2040 = t2040.as_matrix().tolist()
 
+    
     if scenario == 1:
         scen = 'Community Renewables'
     elif scenario == 2:
@@ -1387,7 +1388,7 @@ def fes18_analysis(request):
 
 
 
-    return render(request, 'whole/fes18_plot.html', {'djangodict': json.dumps(dictdata), 'djangotable': json.dumps(djangotable), 'demandnumbers':json.dumps(demN), 'table2040': json.dumps(table2040),'gspName': gspName.name, 'scenario':scen})
+    return render(request, 'whole/fes18_plot.html', {'djangodict': json.dumps(dictdata), 'djangotable': json.dumps(djangotable), 'demandnumbers':json.dumps(demN) ,'table2040': json.dumps(table2040),'gspName': gspName.name, 'scenario':scen})
 
 
 

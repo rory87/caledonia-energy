@@ -42,7 +42,8 @@ def calculateEVCharge(supplyPoint,d,evNumbers,area): # area is either 'Urban' or
         mediumEV=int(evNumbersNew*0.9)
     elif area == 'Rural' and evNumbersNew == 1:
         smallEV = 0
-        mediumEV = 1        
+        mediumEV = 1
+
     
     chargeDataSmall = process_data((Journey.objects.filter(localAuthority=na1[0], Area=area, typeEV='Economy')), Journey,7)
     chargeDataMedium = process_data((Journey.objects.filter(localAuthority=na1[0], Area=area, typeEV='Midsize')), Journey, 7)
