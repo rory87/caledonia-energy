@@ -1056,15 +1056,18 @@ def fes18_analysis(request):
 
 
     #Fetch Heat Pump FES Data and infer demand across the scenario period
+    #Fetch Heat Pump FES Data and infer demand across the scenario period
     hp = process_data_normal(hpFES.objects.filter(index=supplyPoint, scenario=scenario),hpFES, 25)[0,2:]
     smallHousesHP=0
     mediumHousesHP = floor((hp[len(hp)-1]*0.9)*0.3)
     largeHousesHP = floor((hp[len(hp)-1]*0.9)*0.7)
     totHPCharge40 = calculateHeatPumpDemand(supplyPoint, tmy_data, d, m, smallHousesHP, mediumHousesHP, largeHousesHP)
+
     hpTotalRes = np.zeros([totHPCharge40.shape[0], hp.shape[0]])
-    hpTotalRes[0:, hp.shape[0]-1] = totHPCharge40
-    for i in range(0, hp.shape[0]-1):
-     hpTotalRes[0:,i] = (hp[i]/(hp[hp.shape[0]-1]))*totHPCharge40
+    if max(hp) != 0:
+        hpTotalRes[0:, hp.shape[0]-1] = totHPCharge40
+        for i in range(0, hp.shape[0]-1):
+            hpTotalRes[0:,i] = (hp[i]/(hp[hp.shape[0]-1]))*totHPCharge40
 
 
 
@@ -1078,28 +1081,37 @@ def fes18_analysis(request):
 
 
     hpTotalInd = np.zeros([totalHeatPumpIndustrial40.shape[0], hp.shape[0]])
-    for i in range(0, hp.shape[0]-1):
-     hpTotalInd[0:,i] = (hp[i]/(hp[hp.shape[0]-1]))*totalHeatPumpIndustrial40
-
-    hpTotalInd[0:, hp.shape[0]-1]=totalHeatPumpIndustrial40 
+    if max(hp) != 0:
+        for i in range(0, hp.shape[0]-1):
+            hpTotalInd[0:,i] = (hp[i]/(hp[hp.shape[0]-1]))*totalHeatPumpIndustrial40
+        hpTotalInd[0:, hp.shape[0]-1]=totalHeatPumpIndustrial40
 
     hpTotalIndGSP = np.zeros([totalHeatPumpIndustrialGSP.shape[0], hp.shape[0]])
-    for i in range(0, hp.shape[0]-1):
-     hpTotalIndGSP[0:, i] = (hp[i]/(hp[hp.shape[0]-1]))*totalHeatPumpIndustrialGSP
-
-    hpTotalIndGSP[0:, hp.shape[0]-1]=totalHeatPumpIndustrialGSP 
+    if max(hp) != 0:
+        for i in range(0, hp.shape[0]-1):
+            hpTotalIndGSP[0:, i] = (hp[i]/(hp[hp.shape[0]-1]))*totalHeatPumpIndustrialGSP
+        hpTotalIndGSP[0:, hp.shape[0]-1]=totalHeatPumpIndustrialGSP
 
     #Fetch EV FES Data and infer the demand across the scenario period
     ev = process_data_normal(evFES.objects.filter(index=supplyPoint, scenario=scenario), evFES, 25)[0,2:]
     urbanEV = floor(ev[len(ev)-1]*0.5)
     ruralEV = floor(ev[len(ev)-1]*0.5)
-    profileTotalUrban = calculateEVCharge(supplyPoint,d,urbanEV,'Urban')
-    profileTotalRural = calculateEVCharge(supplyPoint,d,ruralEV,'Rural')
+    if urbanEV <= 0:
+        profileTotalUrban = np.zeros([8760,1])
+    else:
+        profileTotalUrban = calculateEVCharge(supplyPoint,d,urbanEV,'Urban')
+
+    if ruralEV <= 0:
+        profileTotalRural = np.zeros([8760, 1])
+    else:
+        profileTotalRural = calculateEVCharge(supplyPoint,d,ruralEV,'Rural')
+        
     evProfile40 = np.reshape(((profileTotalUrban + profileTotalRural)/1000),8760)
 
     evTotal = np.zeros([evProfile40.shape[0], ev.shape[0]])
-    for i in range(0, ev.shape[0]-1):
-     evTotal[0:,i] = (ev[i]/(ev[ev.shape[0]-1]))*evProfile40
+    if urbanEV !=0 and ruralEV != 0:
+        for i in range(0, ev.shape[0]-1):
+            evTotal[0:,i] = (ev[i]/(ev[ev.shape[0]-1]))*evProfile40
 
     evTotal[0:,ev.shape[0]-1] = evProfile40
 
@@ -1165,9 +1177,12 @@ def fes18_analysis(request):
     storageSmall = process_data_normal(subStorageFES.objects.filter(index=supplyPoint, scenario=scenario), subStorageFES, 25)[0,2:]
 
     #Sum up Primary Flows
-    lowCarbonPrimary = (hpTotalRes + hpTotalInd + evTotal +  hpTotalIndGSP - windSmallTotal - pvSmallTotal)
+    if supplyPoint != 70:
+        lowCarbonPrimary = (hpTotalRes + hpTotalInd + evTotal +  hpTotalIndGSP - windSmallTotal - pvSmallTotal)
+    else:
+        lowCarbonPrimary = (hpTotalRes + evTotal - windSmallTotal - pvSmallTotal)
 
-    if supplyPoint > 76:
+    if supplyPoint > 76 and max(subRating) > 0:
         delCustomers = np.where(subCustomers == 0)[0]
         delRating = np.where(subRating == 0)[0]
 
@@ -1223,7 +1238,7 @@ def fes18_analysis(request):
 
 
     #Sum up GSP Flows
-    if supplyPoint > 76:
+    if supplyPoint > 76 and max(subRating) > 0:
         lowCarbonGSP = ((lowCarbonPrimary*psRatio) - windLargeTotal - pvLargeTotal)
     else:
         lowCarbonGSP = (lowCarbonPrimary - windLargeTotal - pvLargeTotal)
@@ -1274,7 +1289,7 @@ def fes18_analysis(request):
     for x in range(0, len(newYears)):
          years[x]=str(newYears[x])
 
-    if supplyPoint > 76:
+    if supplyPoint > 76 and max(subRating) > 0:
         newP=np.transpose(newPrimaryDemand)
 
         dataSend=list(range(newP.shape[0]))
