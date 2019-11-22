@@ -200,9 +200,6 @@ function checkform(){
 	} else if (month == 2 && days > 29){
 		document.getElementById("demo").innerHTML = "Check the number of days and try again";
 		return false;
-	} else if (days) {
-		document.getElementById("demo").innerHTML = "Check the number of days and try again";
-		return false;
 	} else if (reduction <0 || reduction >100) {
 		document.getElementById("reductionWarning").innerHTML = "% reduction must be between 0 and 100";
 		return false;

@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'whole-system-pri/plot/$', views.whole_primary_plot, name='wholePrimaryPlot'),
     url(r'FES18/$', views.fes18_form, name='fes18Form'),
     url(r'FES18/analysis/$', views.fes18_analysis, name='fes18Analysis'),
+    url(r'FES18/annual/$', views.fes18Annual_form, name='fes18AnnualForm'),
+    url(r'FES18/annual/analysis/$', views.fes18Annual_analysis, name='fes18AnnualAnalysis'),
     ]

@@ -896,6 +896,11 @@ def whole_primary_form(request):
 def fes18_form(request): 
     return render(request, 'whole/fes18_form.html')
 
+@login_required(login_url='/login/')
+def fes18Annual_form(request): 
+    return render(request, 'whole/fes18Annual_form.html')
+
+
 def whole_primary_plot(request):
  ################GET REQUESTS############################################
     
@@ -1055,7 +1060,6 @@ def fes18_analysis(request):
     temp=tmy_data['DryBulb']
 
 
-    #Fetch Heat Pump FES Data and infer demand across the scenario period
     #Fetch Heat Pump FES Data and infer demand across the scenario period
     hp = process_data_normal(hpFES.objects.filter(index=supplyPoint, scenario=scenario),hpFES, 25)[0,2:]
     smallHousesHP=0
@@ -1406,7 +1410,272 @@ def fes18_analysis(request):
 
 
 
+def fes18Annual_analysis(request):
 
+    #check if we are including ANM and Energy Storage
+    if 'checkANM' in request.GET:
+        ANM = 1
+    else:
+        ANM = 0
+
+    if 'checkES' in request.GET:
+        ES = 1
+    else:
+        ES = 0
+
+    #Generic GET Requests
+    supplyPoint=int(request.GET['supplyPoint'])
+    scenario = int(request.GET['scenario'])
+    year = int(request.GET['year'])
+
+    #Number of Days/Months for Analysis
+    d=365
+    m=13
+
+
+    #Fetch Primary Substation Statistics and Base Demand for the relevant GSP
+    if supplyPoint > 76:
+        pri = process_data_normal((primarySSEStats.objects.filter(gsp = supplyPoint)), primarySSEStats, 5)
+        subIndex = pri[0:,0]
+        subNames = pri[0:,1]
+        subRating = pri[0:,3]
+        subCustomers = pri[0:,4]
+        baseDemand = np.zeros([8784, len(pri)])
+        for i in range(0, len(pri)):
+             baseDemand[0:,i] = process_data_normal((electricalPrimarySSE.objects.filter(primary =subIndex[i])), electricalPrimarySSE, 3)[0:,2]
+
+    #Fetch GSP Stat Data
+    statGSP = process_data_normal((gspStats.objects.filter(index=supplyPoint)), gspStats, 16)
+    gspBase = gspDemand(supplyPoint, m, d)
+    gspBaseData=np.zeros(len(gspBase))
+    gspBaseData[0:]=gspBase[0:].as_matrix()
+    gspName=GSP.objects.get(idx=supplyPoint)
+
+    #Extract Weather Data for GSP Location
+    latitude=statGSP[0,2]
+    longitude=statGSP[0,3]
+    tmy_data, altitude = extract_weather(d,m, latitude, longitude) # tmy_data is weather data for that lat/lon location
+    temp=tmy_data['DryBulb']
+
+    #Fetch Heat Pump FES Data and infer demand across the scenario period
+    hp = process_data_normal(hpFES.objects.filter(index=supplyPoint, scenario=scenario),hpFES, 25)[0,2:]
+    smallHousesHP=0
+    mediumHousesHP = floor((hp[year-1]*0.9)*0.3)
+    largeHousesHP = floor((hp[year-1]*0.9)*0.7)
+    totHPCharge40 = calculateHeatPumpDemand(supplyPoint, tmy_data, d, m, smallHousesHP, mediumHousesHP, largeHousesHP)
+
+    manufacturingHP = floor((hp[year-1]*0.1)*0.05)
+    commercialHP = floor((hp[year-1]*0.1)*0.8)
+    entertainmentHP = floor((hp[year-1]*0.1)*0.1)
+    educationHP = floor((hp[year-1]*0.1)*0.05)
+
+    totalHeatPumpIndustrialGSP = calculateIndustrialHeatPumpDemand(supplyPoint, d, m, temp, manufacturingHP, 0, 0, 0, 0)
+    totalHeatPumpIndustrial40 = calculateIndustrialHeatPumpDemand(supplyPoint, d, m, temp, 0, commercialHP, entertainmentHP, educationHP, 0)
+            
+    #Fetch EV FES Data and infer the demand across the scenario period
+    ev = process_data_normal(evFES.objects.filter(index=supplyPoint, scenario=scenario), evFES, 25)[0,2:]
+    urbanEV = floor(ev[year-1]*0.5)
+    ruralEV = floor(ev[year-1]*0.5)
+    if urbanEV <= 0:
+        profileTotalUrban = np.zeros([8760,1])
+    else:
+        profileTotalUrban = calculateEVCharge(supplyPoint,d,urbanEV,'Urban')
+
+    if ruralEV <= 0:
+        profileTotalRural = np.zeros([8760, 1])
+    else:
+        profileTotalRural = calculateEVCharge(supplyPoint,d,ruralEV,'Rural')
+        
+    evProfile40 = np.reshape(((profileTotalUrban + profileTotalRural)/1000),8760)
+
+
+    #Fetch Wind FES Data and infer the demand across the sceanrio period
+    windLarge = process_data_normal(windFES.objects.filter(index=supplyPoint, scenario=scenario), windFES, 25)[0,2:]
+    windSmall = process_data_normal(subWindFES.objects.filter(index=supplyPoint, scenario=scenario), subWindFES, 25)[0,2:]
+
+    
+    capWL = windLarge[year-1]
+    if capWL > 0:
+        ratWL = 1000
+        numWL = int((capWL*1e3)/ratWL)
+        outputWLProxy = calculateWindOutput(tmy_data, ratWL)
+        windLargeTotal = ((outputWLProxy*numWL)/1e3)
+    else:
+        windLargeTotal = np.zeros([8760])
+
+     
+    capWS = windSmall[year-1]
+    if capWS > 0:
+        ratWS = 300
+        numWS = int((capWS*1e3)/ratWS)
+        outputWSProxy =  calculateWindOutput(tmy_data, ratWS)
+        windSmallTotal = ((outputWSProxy*numWS)/1e3)
+    else:
+        windSmallTotal = np.zeros([8760])  
+
+    #Fetch PV FES Data
+    pvLarge = process_data_normal(pvFES.objects.filter(index=supplyPoint, scenario=scenario), pvFES, 25)[0,2:]
+    pvSmall = process_data_normal(subPVFES.objects.filter(index=supplyPoint, scenario=scenario), subPVFES, 25)[0,2:]
+
+
+    capPL = pvLarge[year-1]
+    if capPL > 0:
+        ratPL = 1000000
+        numPL = int((capPL*1e6) / ratPL)
+        outputPLProxy = pvPowerOut(tmy_data, latitude, longitude, altitude, ratPL)
+        pvLargeTotal = np.reshape(((outputPLProxy.as_matrix() * numPL)/1e6), 8760)
+    else:
+        pvLargeTotal = np.zeros([8760])
+        
+
+    capPS = pvSmall[year-1]
+    if capPS > 0:
+        ratPS = 5000
+        numPS = int((capPS*1e6) / ratPS)
+        outputPSProxy = pvPowerOut(tmy_data, latitude, longitude, altitude, ratPS)
+        pvSmallTotal = np.reshape(((outputPSProxy.as_matrix() * numPS)/1e6), 8760)
+    else:
+        pvSmallTotal = np.zeros([8760])
+
+    #Fetch Storage FES Data
+    if ES == 1:
+        storageLarge = process_data_normal(storageFES.objects.filter(index=supplyPoint, scenario=scenario), storageFES, 25)[0,2:][year-1]
+        storageSmall = process_data_normal(subStorageFES.objects.filter(index=supplyPoint, scenario=scenario), subStorageFES, 25)[0,2:][year-1]
+
+    #Sum up primary demands
+    if supplyPoint > 76:
+        lowCarbonPrimary = (totHPCharge40 + totalHeatPumpIndustrial40 + evProfile40 - windSmallTotal - pvSmallTotal)
+
+    #Energy Storage
+    
+        demandWithES = lowCarbonPrimary 
+        if ES == 1 and storageSmall > 0:
+            demandWithESProxy=np.zeros([24, d])
+            for i in range(1,(d+1)):
+                model, sol, flo, cha, dis, nD = runSolutionBalance(storageSmall, (lowCarbonPrimary[(24*i)-24:(24*i)]))
+                demandWithESProxy[0:,(i-1)]=nD
+            demandWithES=demandWithESProxy.reshape((d*24),order='F')
+
+        #Find new primary demand
+        newPrimaryDemand = np.zeros([8760, baseDemand.shape[1]])
+        for i in range(0, baseDemand.shape[1]):
+            newPrimaryDemand[0:,i] = (((subCustomers[i]/sum(subCustomers)) * demandWithES[0:])) + baseDemand[0:8760,i]
+
+        #Find new primary demand with active network management
+        curtailedEnergyTotal = np.zeros([8760, baseDemand.shape[1]])
+        newPrimaryDemandANM = np.zeros([8760, baseDemand.shape[1]])
+
+        if ANM == 1:
+            for i in range(0, newPrimaryDemand.shape[1]):
+                for j in range(0, newPrimaryDemand.shape[0]):
+                    if newPrimaryDemand[j,i] < (-1*subRating[i]):
+                        newPrimaryDemandANM[j,i] = (-1*subRating[i])
+                        curtailedEnergyTotal[j,i] = abs(newPrimaryDemand[j,i]) - (subRating[i])
+                    else:
+                        newPrimaryDemandANM[j,i] = newPrimaryDemand[j,i]
+                        curtailedEnergyTotal[j,i] = 0
+        else:
+             newPrimaryDemandANM = newPrimaryDemand
+        
+
+    #sum up GSP demands
+    if supplyPoint > 76:
+        lowCarbonGSP =  gspBase.as_matrix() + sum((newPrimaryDemandANM - baseDemand[0:8760,:]), 1) + totalHeatPumpIndustrialGSP - windLargeTotal - pvLargeTotal
+    else:
+        lowCarbonGSP = gspBase.as_matrix() + totalHeatPumpIndustrialGSP - windLargeTotal - pvLargeTotal + (totHPCharge40 + totalHeatPumpIndustrial40 + evProfile40 - windSmallTotal - pvSmallTotal)
+        #storageLarge = storageLarge + storageSmall
+        
+    demandWithES_GSP = lowCarbonGSP
+    if ES == 1 and storageLarge > 0:
+        demandWithESProxy = np.zeros([24, d])
+        for i in range(1,(d+1)):
+            model, sol, flo, cha, dis, nD = runSolutionBalance(storageLarge, (lowCarbonGSP[(24*i)-24:(24*i)]))
+            demandWithESProxy[0:,(i-1)]=nD
+        demandWithES_GSP=demandWithESProxy.reshape((d*24),order='F')
+
+    #Find new GSP demand with active network management
+    curtailedEnergyTotalGSP = np.zeros(8760)
+    newDemandANMGSP = np.zeros(8760)
+
+    if ANM == 1:
+        for j in range(0, lowCarbonGSP.shape[0]):
+            if demandWithES_GSP[j] < (-1* statGSP[0,1]):
+                newDemandANMGSP[j] = (-1* statGSP[0,1])
+                curtailedEnergyTotalGSP[j] = abs(demandWithES_GSP[j]) - (statGSP[0,1])
+            else: 
+                newDemandANMGSP[j] = demandWithES_GSP[j]
+                curtailedEnergyTotalGSP[j] = 0
+    else:
+        newDemandANMGSP = demandWithES_GSP
+
+    #output data to csv
+    file = gspName.name +' GSP.csv'
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % file
+    writer = csv.writer(response)
+
+    if supplyPoint > 76:
+        n = list(subNames)
+        g = gspName.name + '(GSP)'
+        n.append(g)
+        maxPri = numpy.amax(newPrimaryDemandANM,0)
+        minPri = numpy.amax(newPrimaryDemandANM,0)
+        maxGSP = numpy.amax(newDemandANMGSP,0)
+        minGSP = numpy.amin(newDemandANMGSP,0)
+        totalPeaks = np.zeros(maxPri.shape[0] + 1)
+        totalCurt = np.zeros(maxPri.shape[0] + 1)
+        for i in range(0, (totalPeaks.shape[0] -1)):
+            if abs(maxPri[i]) > abs(minPri[i]):
+                totalPeaks[i] = maxPri[i]
+            else:
+                totalPeaks[i] = minPri[i]
+        if abs(maxGSP) > abs(minGSP):
+            totalPeaks[totalPeaks.shape[0]-1] = maxGSP
+        else:
+            totalPeaks[totalPeaks.shape[0]-1] = minGSP
+        totalCurt[0: (totalPeaks.shape[0]-1)] = sum(curtailedEnergyTotal,0)
+        totalCurt[totalPeaks.shape[0]-1] = sum(curtailedEnergyTotalGSP,0)
+        compiledOutputs = np.zeros([8760,(newPrimaryDemandANM.shape[1]+1)])
+        compiledOutputs[0:,0:(compiledOutputs.shape[1]-1)] = newPrimaryDemandANM
+        compiledOutputs[0:,compiledOutputs.shape[1]-1] = newDemandANMGSP
+    else:
+        maxGSP = numpy.amax(newDemandANMGSP,0)
+        minGSP = numpy.amin(newDemandANMGSP,0)
+        n = str(gspName.name + '(GSP)')
+        if abs(maxGSP) > abs(minGSP):
+            totalPeaks = maxGSP
+        else:
+            totalPeaks = minGSP
+        totalCurt = sum(curtailedEnergyTotalGSP,0)
+        compiledOutputs = newDemandANMGSP
+
+
+    
+
+    fullModelledData=pd.DataFrame(compiledOutputs, index=gspBase.index)
+    fullModelledData=fullModelledData.reset_index()
+
+    if supplyPoint > 76:
+        totalPeaks = list(totalPeaks)
+        totalCurt = list(totalCurt)
+        n.insert(0, 'Substation Name')
+        totalPeaks.insert(0, 'Peak Demand (MW)')
+        totalCurt.insert(0, 'Curtailed Energy (MWh)')
+    else:
+        n = list(['Substation Name', n])
+        totalPeaks = list(['Peak Demand (MW)', totalPeaks])
+        totalCurt = list(['Curtailed Energy (MWh)', totalCurt])
+    
+    with open('demand.csv','w') as csvfile:       
+        writer.writerow(n)
+        writer.writerow(totalPeaks)
+        writer.writerow(totalCurt)
+        for i in range(0,len(fullModelledData)):
+            writer.writerow(fullModelledData.iloc[i,0:])
+
+    return response        
+    #return render(request, 'whole/fes18Annual_formTest.html', {'ANM': year, 'ES':supplyPoint})
 
 
 

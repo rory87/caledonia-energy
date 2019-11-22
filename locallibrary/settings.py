@@ -20,11 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-### SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret!
 with open('/home/rory/secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
 
-DEBUG = True
+
+DEBUG = False
 
 #######
 
@@ -97,7 +98,7 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-####This has been commented but shoud remain for production!####
+##This has been commented but shoud remain for production!####
 with open('/home/rory/database_credentials.txt') as f:
     creds = f.read().strip().split("\n")
 
@@ -174,6 +175,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_REDIRECT_URL = 'home'
 
+SESSION_COOKIE_AGE = 1800
 
 #For geo-django
 
