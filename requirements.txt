@@ -6,7 +6,7 @@ chardet==3.0.4
 Click==7.0
 cycler==0.10.0
 dj-database-url==0.4.2
-Django==1.11.6
+Django==1.11.29
 django-celery-beat==1.4.0
 django-celery-results==1.0.4
 django-geojson==2.12.0
